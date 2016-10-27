@@ -1,0 +1,8 @@
+language: node_js
+node_js:
+  - 6
+notifications:
+  email:
+    - carriere.denis@gmail.com
+after_success:
+  - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'

@@ -1,2 +1,4 @@
-# mbtiles-server
-MBTiles Server
+# MBTiles Server
+
+Create a quick Tile Server from MBTiles
+
