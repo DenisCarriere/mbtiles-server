@@ -5,6 +5,7 @@
   "main": "index.js",
   "jsnext:main": "index.js",
   "scripts": {
+    "start": "tsc && node cli.js",
     "test": "npm run lint && nyc ava",
     "lint": "tsc && tslint index.ts test.ts && documentation lint index.js"
   },

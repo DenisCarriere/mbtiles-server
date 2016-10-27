@@ -10,7 +10,7 @@ const router = Router()
 router.route('/')
   .all((req: Request, res: Response) => {
     res.json({
-      api: `Micro Data Service ${ require('../package').version }`,
+      api: `MBTiles Server ${ require('../package').version }`,
       http: {
         GET: [
           '/<mbtiles>',
