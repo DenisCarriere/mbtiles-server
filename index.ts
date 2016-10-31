@@ -3,13 +3,17 @@ import * as express from 'express'
 import * as routes from './routes'
 
 // Global Variables
+export let PROTOCOL: string
+export let DOMAIN: string
 export let PATH: string
 export let PORT: number
 
 /**
  * Start Server
  */
-export function start(port: number, path: string) {
+export function start(path: string, protocol = 'http', domain = 'localhost', port = 5000) {
+  PROTOCOL = protocol
+  DOMAIN = domain
   PATH = path
   PORT = port
 
@@ -24,6 +28,7 @@ export function start(port: number, path: string) {
   app.use(routes.permissions)
   app.use('/', routes.api)
   app.use('/', routes.mbtiles)
+  app.use('/wmts', routes.wmts)
 
   // Start Listening
   app.listen(port)
