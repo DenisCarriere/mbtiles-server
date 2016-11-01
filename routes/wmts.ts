@@ -1,8 +1,6 @@
-import * as fs from 'fs'
-import * as path from 'path'
 import { Router, Request, Response } from 'express'
 import { PROTOCOL, DOMAIN, PORT } from '../index'
-import * as wmts from '../../wmts'
+import * as wmts from 'wmts'
 
 const router = Router()
 
