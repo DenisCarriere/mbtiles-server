@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express'
-import { PROTOCOL, DOMAIN, PORT } from '../index'
+import { PROTOCOL, DOMAIN, PORT, PATH } from '../index'
+import { getFiles } from '../utils'
 import * as wmts from 'wmts'
 
 const router = Router()
@@ -15,32 +16,39 @@ interface WMTSRequest extends Request {
   }
 }
 
-function getCapabilities(service: string) {
-  // return fs.readFileSync(path.join(__dirname, 'arcgis.xml'))
-  return wmts.getCapabilities({
+function WMTSCapabilities(req: WMTSRequest, res: Response) {
+  const service = req.params.mbtiles
+
+  // Check if Service exists
+  if (getFiles(PATH, /\.mbtiles$/).indexOf(service) === -1) {
+    return res.json({
+      message: `[${ service }] service is not found`,
+      ok: false,
+      status: 500,
+      url: req.url,
+    })
+  }
+
+  // Return XML
+  const capabilities = wmts.getCapabilities({
     uri: `${ PROTOCOL}://${ DOMAIN }:${ PORT }/${ service }/WMTS`,
     title: service,
     minZoom: 1,
   })
+  res.set('Content-Type', 'text/xml')
+  res.send(capabilities)
 }
 
 /**
  * Route for RESTFul WMTS Capabilities
  */
 router.route('/:mbtiles/WMTS/1.0.0/WMTSCapabilities.xml')
-  .all((req: WMTSRequest, res: Response) => {
-    res.set('Content-Type', 'text/xml')
-    res.send(getCapabilities(req.params.mbtiles))
-  })
+  .get(WMTSCapabilities)
 
 /**
  * Route for KVP WMTS
  */
 router.route('/:mbtiles/WMTS')
-  .all((req: WMTSRequest, res: Response) => {
-    res.set('Content-Type', 'text/xml')
-    res.send(getCapabilities(req.params.mbtiles))
-  })
+  .get(WMTSCapabilities)
 
 export default router
-

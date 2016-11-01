@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 - 2016-11-01
+
+- Add MBTiles Metadata route
+
 ## 1.0.1 - 2016-10-31
 
 - Add WMTS library
