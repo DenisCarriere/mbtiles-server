@@ -1,6 +1,6 @@
 {
   "name": "mbtiles-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Quick Tile Server to host MBTiles",
   "main": "index.js",
   "jsnext:main": "index.js",
