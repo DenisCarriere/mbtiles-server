@@ -12,27 +12,30 @@ interface MBTilesRequest extends Request {
   }
 }
 
-export function getTile(req: Request): Tile {
-  const tile = [Number(req.params.x), Number(req.params.y), Number(req.params.z)]
-  return mercator.tileToGoogle(tile)
-}
-
 /**
  * Route for API
  */
 router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|)')
-  .all(async (req: Request, res: Response) => {
-    // if (getFiles()[req.params.mbtiles] === undefined) {
-    //   return res.json({
-    //     message: '<mbtiles> not found',
-    //     ok: false,
-    //     status: 404,
-    //   })
-    // }
-    const tile = getTile(req)
-    const mbtiles = new MBTiles(path.join(PATH, `${ req.params.mbtiles }.mbtiles`))
-    const data = await mbtiles.getTile(tile)
-    res.end(data, 'binary')
-  })
+  .get(GetTile)
+router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|)')
+  .get(GetTile)
+
+async function GetTile(req: Request, res: Response) {
+  const tms = [Number(req.params.x), Number(req.params.y), Number(req.params.z)]
+  const tile = mercator.tileToGoogle(tms)
+  const mbtiles = new MBTiles(path.join(PATH, `${ req.params.mbtiles }.mbtiles`))
+  mbtiles.getTile(tile)
+    .then(data => {
+      res.set('Content-Type', `image/${ (req.params.ext) ? req.params.ext : 'png' }`)
+      res.end(data, 'binary')
+    }, error => {
+      res.json({
+        message: 'Tile not found',
+        ok: false,
+        status: 404,
+        url: req.url,
+      })
+    })
+}
 
 export default router

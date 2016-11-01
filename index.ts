@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import * as routes from './routes'
+import { Request, Response } from 'express'
 
 // Global Variables
 export let PROTOCOL: string
@@ -17,6 +18,7 @@ export function start(path: string, protocol = 'http', domain = 'localhost', por
   PATH = path
   PORT = port
 
+
   // Settings
   const app = express()
   app.use(bodyParser.json())
@@ -24,11 +26,25 @@ export function start(path: string, protocol = 'http', domain = 'localhost', por
   app.use(bodyParser.urlencoded({ extended: true }))
   app.set('trust proxy', true)
 
+  // Logging Middleware
+  app.use((req: Request, res: Response, next: any) => {
+    const log = {
+      body: req.body,
+      ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+      method: req.method,
+      url: req.originalUrl,
+      query: req.query,
+      params: req.params,
+    }
+    console.log(log)
+    next()
+  })
+
   // Register Routes
   app.use(routes.permissions)
   app.use('/', routes.api)
   app.use('/', routes.mbtiles)
-  app.use('/wmts', routes.wmts)
+  app.use('/', routes.wmts)
 
   // Start Listening
   app.listen(port)

@@ -50,7 +50,7 @@ export class MBTiles {
   /**
    * Retrieve Buffer from Tile [x, y, z]
    */
-  public getTile(tile: Tile, area?: number) {
+  public async getTile(tile: Tile, area?: number): Promise<Buffer> {
     const [x, y, z] = tile
     return this.tilesSQL.find({
       attributes: ['tile_data'],

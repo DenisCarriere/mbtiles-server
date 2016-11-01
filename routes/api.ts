@@ -14,8 +14,9 @@ router.route('/')
       http: {
         GET: [
           '/<mbtiles>',
-          '/<mbtiles>/{zoom}/{x}/{y}(.png|.jpg)',
-          '/wmts?service=WMTS&version=1.0.0&request=GetCapabilities',
+          '/<mbtiles>/{zoom}/{x}/{y}',
+          '/<mbtiles>/WMTS',
+          '/<mbtiles>/WMTS/1.0.0/WMTSCapabilities.xml',
         ],
       },
       mbtiles: getFiles(PATH, /\.mbtiles$/),

@@ -1,54 +1,48 @@
+import * as fs from 'fs'
+import * as path from 'path'
 import { Router, Request, Response } from 'express'
-import { PORT, DOMAIN, PROTOCOL } from '../index'
+import { PROTOCOL, DOMAIN, PORT } from '../index'
 import * as wmts from '../../wmts'
 
 const router = Router()
 
 interface WMTSRequest extends Request {
+  params: {
+    mbtiles: string
+  },
   query: {
     service: string
-    version: string
     request: string
+    version: string
   }
 }
 
+function getCapabilities(service: string) {
+  // return fs.readFileSync(path.join(__dirname, 'arcgis.xml'))
+  return wmts.getCapabilities({
+    uri: `${ PROTOCOL}://${ DOMAIN }:${ PORT }/${ service }/WMTS`,
+    title: service,
+    minZoom: 1,
+  })
+}
+
 /**
- * Route for WMTS
+ * Route for RESTFul WMTS Capabilities
  */
-router.route('/')
+router.route('/:mbtiles/WMTS/1.0.0/WMTSCapabilities.xml')
   .all((req: WMTSRequest, res: Response) => {
-    console.log(req.query)
-    if (req.query.service !== 'WMTS') {
-      return res.json({
-        ok: false,
-        status: 400,
-        message: '[service] is invalid',
-      })
-    }
-    if (req.query.version !== '1.0.0') {
-      return res.json({
-        ok: false,
-        status: 400,
-        message: '[version] is invalid',
-      })
-    }
-    if (req.query.request !== 'GetCapabilities') {
-      return res.json({
-        ok: false,
-        status: 400,
-        message: '[request] is invalid',
-      })
-    }
-    const capabilities = wmts.getCapabilities({
-      uri: 'http://localhost:5000/wmts',
-      name: 'Denis',
-      title: 'This is Title',
-      abstract: 'Abstract',
-      keywords: ['words', 1324, 'more words'],
-    })
     res.set('Content-Type', 'text/xml')
-    res.send(capabilities)
+    res.send(getCapabilities(req.params.mbtiles))
   })
 
+/**
+ * Route for KVP WMTS
+ */
+router.route('/:mbtiles/WMTS')
+  .all((req: WMTSRequest, res: Response) => {
+    res.set('Content-Type', 'text/xml')
+    res.send(getCapabilities(req.params.mbtiles))
+  })
 
 export default router
+
