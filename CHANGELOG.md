@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1 - 2016-11-03
+
+- Add default export for Typescript
+
 ## 1.1.0 - 2016-11-01
 
 - Add MBTiles Metadata route

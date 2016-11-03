@@ -50,3 +50,5 @@ export function start(path: string, protocol = 'http', domain = 'localhost', por
   app.listen(port)
   console.log(`Listening on PORT ${ port }`)
 }
+
+export default { start }
