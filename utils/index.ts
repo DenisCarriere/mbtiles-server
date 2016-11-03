@@ -60,7 +60,6 @@ export class MBTiles {
    */
   public async getTile(tile: Tile, area?: number): Promise<Buffer> {
     const [x, y, z] = tile
-    console.log('getTile')
     const data = await this.tilesSQL.find({
       attributes: ['tile_data'],
       where: {
@@ -69,7 +68,6 @@ export class MBTiles {
         zoom_level: z,
       },
     })
-    console.log('no tile')
     return readTileData(data)
   }
 
