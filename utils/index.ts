@@ -38,7 +38,20 @@ export function connect(uri: string) {
   }
   return new Sequelize(`sqlite://${ uri }`, options)
 }
-
+interface Metadata {
+  name?: string
+  type?: string
+  version?: string
+  attribution?: string
+  description?: string
+  bounds?: string
+  center?: string
+  minZoom?: string
+  maxZoom?: string
+  format?: string
+  url?: string
+  [key: string]: string
+}
 /**
  * MBTiles
  */
@@ -75,7 +88,7 @@ export class MBTiles {
    * Retrieves Metadata from MBTiles
    */
   public async metadata() {
-    let json: any = {}
+    let json: Metadata = {}
     const data = await this.metadataSQL.findAll()
     data.map(item => json[item.name] = item.value)
     return json

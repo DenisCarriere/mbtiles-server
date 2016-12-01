@@ -7,7 +7,7 @@ npm-debug.log*
 *.js.map
 
 providers.json
-
+yarn.lock
 # Runtime data
 pids
 *.pid
