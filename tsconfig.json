@@ -13,7 +13,6 @@
         "node_modules"
     ],
     "filesGlob": [
-        "./**/*.ts",
-        "typings/xml-js.d.ts"
+        "**/*.ts"
     ]
 }

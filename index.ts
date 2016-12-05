@@ -18,7 +18,6 @@ export function start(path: string, protocol = 'http', domain = 'localhost', por
   PATH = path
   PORT = port
 
-
   // Settings
   const app = express()
   app.use(bodyParser.json())

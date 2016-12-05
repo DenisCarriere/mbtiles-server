@@ -5,4 +5,4 @@ notifications:
   email:
     - carriere.denis@gmail.com
 after_success:
-  - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
+  - 'cat ./coverage/lcov.info | coveralls'

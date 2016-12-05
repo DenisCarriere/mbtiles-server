@@ -1,4 +1,5 @@
 import * as fs from 'fs'
+import * as path from 'path'
 import * as Sequelize from 'sequelize'
 import Tiles, {
   TilesAttribute,
@@ -38,19 +39,21 @@ export function connect(uri: string) {
   }
   return new Sequelize(`sqlite://${ uri }`, options)
 }
-interface Metadata {
+
+export interface Metadata {
   name?: string
-  type?: string
-  version?: string
+  type?: 'baselayer' | 'overlay'
+  version?: '1.0.0' | '1.1.0' | '1.2.0'
   attribution?: string
   description?: string
-  bounds?: string
-  center?: string
-  minZoom?: string
-  maxZoom?: string
-  format?: string
-  url?: string
-  [key: string]: string
+  bounds?: [number, number, number, number]
+  center?: [number, number] | [number, number, number]
+  minzoom?: number
+  maxzoom?: number
+  format?: 'png' | 'jpg'
+  basename?: string
+  uri?: string
+  [key: string]: any
 }
 /**
  * MBTiles
@@ -88,11 +91,69 @@ export class MBTiles {
    * Retrieves Metadata from MBTiles
    */
   public async metadata() {
-    let json: Metadata = {}
+    const metadata: Metadata = {}
+    metadata.uri = this.uri
+    metadata.basename = path.basename(this.uri)
     const data = await this.metadataSQL.findAll()
-    data.map(item => json[item.name] = item.value)
-    return json
+    data.map(item => {
+      const name = item.name.toLowerCase()
+      const value = item.value
+      switch (name) {
+        case 'minzoom':
+        case 'maxzoom':
+          metadata[name] = Number(value)
+          break
+        case 'name':
+        case 'attribution':
+        case 'description':
+          metadata[name] = value
+          break
+        case 'bounds':
+          const bounds = value.split(',').map(i => Number(i))
+          metadata.bounds = [bounds[0], bounds[1], bounds[2], bounds[3]]
+          break
+        case 'center':
+          const center = value.split(',').map(i => Number(i))
+          switch (center.length) {
+            case 2:
+              metadata.center = [center[0], center[1]]
+              break
+            case 3:
+              metadata.center = [center[0], center[1], center[2]]
+              break
+            default:
+          }
+          break
+        case 'type':
+          switch (value) {
+            case 'overlay':
+            case 'baselayer':
+              metadata[name] = value
+              break
+            default:
+          }
+        case 'format':
+          switch (value) {
+            case 'png':
+            case 'jpg':
+              metadata[name] = value
+              break
+            default:
+          }
+        case 'version':
+          switch (value) {
+            case '1.0.0':
+            case '1.1.0':
+            case '1.2.0':
+              metadata[name] = value
+              break
+            default:
+          }
+        default:
+          metadata[name] = value
+      }
+    })
+    return metadata
   }
 }
-
 export default MBTiles
