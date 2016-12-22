@@ -1,5 +1,5 @@
-import * as Sequelize from 'sequelize'
-import { BLOB, INTEGER, DefineAttributes } from 'sequelize'
+import * as Sequelize from 'sequelize-offline'
+import { BLOB, INTEGER, DefineAttributes } from 'sequelize-offline'
 
 /**
  * Tiles Interface for MBTiles SQL Model

@@ -1,5 +1,5 @@
-import * as Sequelize from 'sequelize'
-import { TEXT, DefineAttributes } from 'sequelize'
+import * as Sequelize from 'sequelize-offline'
+import { TEXT, DefineAttributes } from 'sequelize-offline'
 
 /**
  * Metadata Interface for MBTiles SQL Model
