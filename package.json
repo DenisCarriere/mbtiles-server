@@ -5,7 +5,7 @@
   "main": "index.js",
   "jsnext:main": "index.js",
   "scripts": {
-    "start": "node cli.js",
+    "start": "node cli.js --verbose",
     "test": "npm run lint && jest --coverage",
     "docs": "tsc && cat HEADER.md > README.md && documentation build index.js -c documentation.yml -f md --shallow >> README.md && cat CHANGELOG.md >> README.md",
     "lint": "tsc && tslint utils/*.ts routes/*.ts *.ts && documentation lint index.js"

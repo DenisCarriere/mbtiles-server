@@ -16,17 +16,25 @@ $ npm install --save mbtiles-servers
 
 ## Quickstart
 
-```javascript
-import * as server from 'mbtiles-server'
+```bash
+$ npm start
 
-server.start('~/mbtiles', {port: 5000, verbose: true})
+MBTiles Server
+
+  uri:           /Users/mac/mbtiles
+  protocol:      http
+  port:          5000
+  domain:        localhost
+  verbose:       true
+
+Listening on PORT 5000
 ```
 
 ## CLI
 
 ```bash
 $ npm install -g mbtiles-server
-$ mbtiles-server ~/mbtiles
+$ mbtiles-server --verbose ~/mbtiles
 ```
 
 ## WMTS
