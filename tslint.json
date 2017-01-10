@@ -2,16 +2,13 @@
   "extends": "tslint:latest",
   "rules": {
     "semicolon": [true, "never"],
-    "no-constructor-vars": true,
     "quotemark": [true, "single"],
-    "ordered-imports": false,
-    "no-bitwise": false,
-    "variable-name": [false, "check-format"],
     "max-line-length": [true, 150],
     "no-console": [false],
     "interface-name": [false],
+    "arrow-parens": false,
     "no-var-requires": false,
-    "no-reference": false,
+    "ordered-imports": [false],
     "object-literal-sort-keys": false
   },
   "rulesDirectory": [ ]

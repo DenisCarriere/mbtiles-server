@@ -5,6 +5,7 @@ npm-debug.log*
 
 *.js
 *.js.map
+*.mbtiles
 
 providers.json
 yarn.lock

@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import { PATH, PORT } from '../index'
+import { URI, PORT } from '../index'
 import { getFiles } from '../utils'
 
 const router = Router()
@@ -19,9 +19,9 @@ router.route('/')
           '/<mbtiles>/WMTS/1.0.0/WMTSCapabilities.xml',
         ],
       },
-      mbtiles: getFiles(PATH, /\.mbtiles$/),
+      mbtiles: getFiles(URI, /\.mbtiles$/),
       ok: true,
-      path: PATH,
+      uri: URI,
       port: PORT,
       status: 200,
     })

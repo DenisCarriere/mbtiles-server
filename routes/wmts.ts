@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import { PROTOCOL, DOMAIN, PORT, PATH } from '../index'
+import { PROTOCOL, DOMAIN, PORT, URI } from '../index'
 import { getFiles } from '../utils'
 import * as wmts from 'wmts'
 
@@ -7,12 +7,12 @@ const router = Router()
 
 interface WMTSRequest extends Request {
   params: {
-    mbtiles: string
+    mbtiles: string,
   },
   query: {
-    service: string
-    request: string
-    version: string
+    service: string,
+    request: string,
+    version: string,
   }
 }
 
@@ -20,7 +20,7 @@ function WMTSCapabilities(req: WMTSRequest, res: Response) {
   const service = req.params.mbtiles
 
   // Check if Service exists
-  if (getFiles(PATH, /\.mbtiles$/).indexOf(service) === -1) {
+  if (getFiles(URI, /\.mbtiles$/).indexOf(service) === -1) {
     return res.json({
       message: `[${ service }] service is not found`,
       ok: false,

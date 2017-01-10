@@ -1,4 +1,11 @@
+
 # Changelog
+
+## 1.3.0 - 2017-01-10
+
+- Major refactoring
+- Improve CLI using `meow`
+- Update dependencies (including `mbtiles-offline`)
 
 ## 1.2.0 - 2016-12-5
 

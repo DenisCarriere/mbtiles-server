@@ -1,3 +1,5 @@
+import * as path from 'path'
+import * as os from 'os'
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import * as routes from './routes'
@@ -6,17 +8,36 @@ import { Request, Response } from 'express'
 // Global Variables
 export let PROTOCOL: string
 export let DOMAIN: string
-export let PATH: string
+export let URI: string
 export let PORT: number
+export let VERBOSE: boolean
+
+interface StartOptions {
+  protocol?: string
+  domain?: string
+  port?: number
+  verbose?: boolean
+}
 
 /**
  * Start Server
+ *
+ * @param {string} [uri=~/mbtiles] URI file path
+ * @param {string} [options] Server Options
+ * @param {string} [options.protocol='http'] URL Protocol
+ * @param {string} [options.domain='localhost'] URL Domain
+ * @param {string} [options.port=5000] URL Port
+ * @param {string} [options.verbose=false] Verbose output
+ * @returns {void} System output for logs
+ * @example
+ * server.start('~/mbtiles', {port: 5000, verbose: true})
  */
-export function start(path: string, protocol = 'http', domain = 'localhost', port = 5000) {
-  PROTOCOL = protocol
-  DOMAIN = domain
-  PATH = path
-  PORT = port
+export function start(uri?: string, options: StartOptions = {}) {
+  URI = uri || path.join(os.homedir(), 'mbtiles')
+  PROTOCOL = options.protocol || 'http'
+  DOMAIN = options.domain || 'localhost'
+  PORT = options.port || 5000
+  VERBOSE = options.verbose
 
   // Settings
   const app = express()
@@ -35,7 +56,7 @@ export function start(path: string, protocol = 'http', domain = 'localhost', por
       query: req.query,
       params: req.params,
     }
-    console.log(log)
+    if (VERBOSE) { process.stdout.write(JSON.stringify(log)) }
     next()
   })
 
@@ -46,8 +67,8 @@ export function start(path: string, protocol = 'http', domain = 'localhost', por
   app.use('/', routes.wmts)
 
   // Start Listening
-  app.listen(port)
-  console.log(`Listening on PORT ${ port }`)
+  app.listen(PORT)
+  if (VERBOSE) { process.stdout.write(`Listening on PORT ${ PORT }`) }
 }
 
 export default { start }
