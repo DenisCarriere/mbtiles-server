@@ -4,7 +4,7 @@ import { Router, Request, Response } from 'express'
 import { URI } from '../index'
 import { Tile, getFiles } from '../utils'
 import { MBTiles } from 'mbtiles-offline'
-import * as tiletype from '@mapbox/tiletype'
+const tiletype = require('@mapbox/tiletype')
 
 const router = Router()
 
