@@ -1,7 +1,7 @@
 const path = require('path')
 const mercator = require('global-mercator')
 const router = require('express').Router()
-const URI = require('../').URI
+const URI = require('../config').URI
 const getFiles = require('../utils').getFiles
 const MBTiles = require('mbtiles-offline').MBTiles
 const tiletype = require('@mapbox/tiletype')
@@ -36,10 +36,15 @@ router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|)')
   .get(GetTile)
 router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|)')
   .get(GetTile)
+router.route('/:mbtiles/WMTS/tile/1.0.0/')
+  .get(GetTile)
 
 function GetTile (req, res) {
   const service = req.params.mbtiles
-  const tms = [Number(req.params.x), Number(req.params.y), Number(req.params.z)]
+  const x = Number(req.params.x || req.query.TILECOL)
+  const y = Number(req.params.y || req.query.TILEROW)
+  const z = Number(req.params.x || req.query.TILEMATRIX)
+  const tms = [x, y, z]
   let tile
 
   // Check if Service exists

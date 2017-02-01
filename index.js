@@ -5,11 +5,11 @@ const express = require('express')
 const routes = require('./routes')
 
 // Global Variables
-let PROTOCOL
-let DOMAIN
-let URI
-let PORT
-let VERBOSE
+let PROTOCOL = 'http'
+let DOMAIN = 'localhost'
+let URI = path.join(os.homedir(), 'mbtiles')
+let PORT = 5000
+let VERBOSE = true
 module.exports.PROTOCOL = PROTOCOL
 module.exports.DOMAIN = DOMAIN
 module.exports.URI = URI
@@ -30,10 +30,10 @@ module.exports.VERBOSE = VERBOSE
  * server.start('~/mbtiles', {port: 5000, verbose: true})
  */
 function start (uri, options = {}) {
-  URI = uri || path.join(os.homedir(), 'mbtiles')
-  PROTOCOL = options.protocol || 'http'
-  DOMAIN = options.domain || 'localhost'
-  PORT = options.port || 5000
+  URI = uri || URI
+  PROTOCOL = options.protocol || PROTOCOL
+  DOMAIN = options.domain || DOMAIN
+  PORT = options.port || PORT
   VERBOSE = options.verbose
 
   // Settings

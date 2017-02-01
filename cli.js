@@ -2,6 +2,7 @@ const path = require('path')
 const os = require('os')
 const server = require('./index')
 const meow = require('meow')
+const config = require('./config')
 
 const cli = meow(`
     Provides a compatible WMTS Tile Server from MBTiles.
@@ -20,10 +21,10 @@ const cli = meow(`
 })
 
 // Define default options
-const uri = cli.input[0] || path.join(os.homedir(), 'mbtiles')
-const domain = cli.flags.domain || 'localhost'
-const port = cli.flags.port || 5000
-const protocol = cli.flags.protocol || 'http'
+const uri = cli.input[0] || config.URI
+const domain = cli.flags.domain || config.DOMAIN
+const port = cli.flags.port || config.PORT
+const protocol = cli.flags.protocol || config.PROTOCOL
 const verbose = cli.flags.verbose
 
 // Verbose output

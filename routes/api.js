@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const URI = require('.').URI
-const PORT = require('.').PORT
+const URI = require('../').URI
+const PORT = require('../').PORT
 const getFiles = require('../utils').getFiles
 
 /**
@@ -9,7 +9,7 @@ const getFiles = require('../utils').getFiles
 router.route('/')
   .all((req, res) => {
     res.json({
-      api: `MBTiles Server ${require('../package').version}`,
+      api: `MBTiles Server ${require('../package.json').version}`,
       http: {
         GET: [
           '/<mbtiles>',

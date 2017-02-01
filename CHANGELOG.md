@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 1.4.0 - 2017-02-01
+
+- Added KVP support for request Tile 1.0.0
+- Updated WMTS capabilites with extra metadata
+
 ## 1.3.0 - 2017-01-10
 
 - Major refactoring

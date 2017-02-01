@@ -1,5 +1,5 @@
+const URI = require('../config').URI
 const fs = require('fs')
-const URI = require('..').URI
 
 function getFiles (uri = URI, regex = /\.mbtiles$/) {
   let mbtiles = fs.readdirSync(uri).filter(value => value.match(regex))

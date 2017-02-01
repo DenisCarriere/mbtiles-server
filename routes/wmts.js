@@ -1,13 +1,17 @@
+const path = require('path')
 const router = require('express').Router()
-const PROTOCOL = require('.').PROTOCOL
-const DOMAIN = require('.').DOMAIN
-const URI = require('.').URI
-const PORT = require('.').PORT
-const getFiles = require('../utils').getFiles
+const MBTiles = require('mbtiles-offline').MBTiles
 const wmts = require('wmts')
+const getFiles = require('../utils').getFiles
+const config = require('../config')
+const URI = config.URI
+const PROTOCOL = config.PROTOCOL
+const DOMAIN = config.DOMAIN
+const PORT = config.PORT
 
 function WMTSCapabilities (req, res) {
   const service = req.params.mbtiles
+  const mbtiles = new MBTiles(path.join(URI, service + '.mbtiles'))
 
   // Check if Service exists
   if (getFiles(URI, /\.mbtiles$/).indexOf(service) === -1) {
@@ -20,13 +24,20 @@ function WMTSCapabilities (req, res) {
   }
 
   // Return XML
-  const capabilities = wmts.getCapabilities({
-    uri: `${PROTOCOL}://${DOMAIN}:${PORT}/${service}/WMTS`,
-    title: service,
-    minZoom: 1
+  mbtiles.metadata().then(metadata => {
+    const xml = wmts.getCapabilities({
+      url: `${PROTOCOL}://${DOMAIN}:${PORT}/${service}/WMTS`,
+      title: service,
+      minzoom: metadata.minzoom,
+      maxzoom: metadata.maxzoom,
+      description: metadata.description,
+      bbox: metadata.bounds,
+      format: 'jpeg',
+      spaces: 2
+    })
+    res.set('Content-Type', 'text/xml')
+    res.send(xml)
   })
-  res.set('Content-Type', 'text/xml')
-  res.send(capabilities)
 }
 
 /**
