@@ -43,7 +43,7 @@ function GetTile (req, res) {
   const service = req.params.mbtiles
   const x = Number(req.params.x || req.query.TILECOL)
   const y = Number(req.params.y || req.query.TILEROW)
-  const z = Number(req.params.x || req.query.TILEMATRIX)
+  const z = Number(req.params.z || req.query.TILEMATRIX)
   const tms = [x, y, z]
   let tile
 
