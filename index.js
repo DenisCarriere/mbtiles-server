@@ -1,23 +1,20 @@
-import * as path from 'path'
-import * as os from 'os'
-import * as bodyParser from 'body-parser'
-import * as express from 'express'
-import * as routes from './routes'
-import { Request, Response } from 'express'
+const path = require('path')
+const os = require('os')
+const bodyParser = require('body-parser')
+const express = require('express')
+const routes = require('./routes')
 
 // Global Variables
-export let PROTOCOL: string
-export let DOMAIN: string
-export let URI: string
-export let PORT: number
-export let VERBOSE: boolean
-
-interface StartOptions {
-  protocol?: string
-  domain?: string
-  port?: number
-  verbose?: boolean
-}
+let PROTOCOL
+let DOMAIN
+let URI
+let PORT
+let VERBOSE
+module.exports.PROTOCOL = PROTOCOL
+module.exports.DOMAIN = DOMAIN
+module.exports.URI = URI
+module.exports.PORT = PORT
+module.exports.VERBOSE = VERBOSE
 
 /**
  * Start Server
@@ -32,7 +29,7 @@ interface StartOptions {
  * @example
  * server.start('~/mbtiles', {port: 5000, verbose: true})
  */
-export function start(uri?: string, options: StartOptions = {}) {
+function start (uri, options = {}) {
   URI = uri || path.join(os.homedir(), 'mbtiles')
   PROTOCOL = options.protocol || 'http'
   DOMAIN = options.domain || 'localhost'
@@ -47,14 +44,14 @@ export function start(uri?: string, options: StartOptions = {}) {
   app.set('trust proxy', true)
 
   // Logging Middleware
-  app.use((req: Request, res: Response, next: any) => {
+  app.use((req, res, next) => {
     const log = {
       body: req.body,
       ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress,
       method: req.method,
       url: req.originalUrl,
       query: req.query,
-      params: req.params,
+      params: req.params
     }
     if (VERBOSE) { process.stdout.write(JSON.stringify(log)) }
     next()
@@ -68,7 +65,6 @@ export function start(uri?: string, options: StartOptions = {}) {
 
   // Start Listening
   app.listen(PORT)
-  if (VERBOSE) { process.stdout.write(`Listening on PORT ${ PORT }`) }
+  if (VERBOSE) { process.stdout.write('Listening on PORT ' + PORT) }
 }
-
-export default { start }
+module.exports.start = start

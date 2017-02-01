@@ -3,12 +3,6 @@ logs
 *.log
 npm-debug.log*
 
-*.js
-*.js.map
-*.mbtiles
-
-providers.json
-yarn.lock
 # Runtime data
 pids
 *.pid
@@ -25,6 +19,7 @@ coverage
 
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
+yarn.lock
 
 # node-waf configuration
 .lock-wscript

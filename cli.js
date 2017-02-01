@@ -1,18 +1,9 @@
-import * as path from 'path'
-import * as os from 'os'
-import * as server from './index'
-import * as meow from 'meow'
+const path = require('path')
+const os = require('os')
+const server = require('./index')
+const meow = require('meow')
 
-interface Result extends meow.Result {
-  flags: {
-    protocol?: string,
-    domain?: string,
-    port?: number,
-    verbose?: boolean,
-  }
-}
-
-const cli: Result = meow(`
+const cli = meow(`
     Provides a compatible WMTS Tile Server from MBTiles.
     Usage
       $ mbtiles-server <filepath>
@@ -25,7 +16,7 @@ const cli: Result = meow(`
       $ mbtiles-server ~/mbtiles --port 5000 --verbose
 `, {
   alias: {v: 'verbose'},
-  boolean: ['verbose'],
+  boolean: ['verbose']
 })
 
 // Define default options
@@ -36,7 +27,7 @@ const protocol = cli.flags.protocol || 'http'
 const verbose = cli.flags.verbose
 
 // Verbose output
-if (verbose) { process.stdout.write(`
+const status = `
 MBTiles Server
 
   uri:           ${uri}
@@ -45,7 +36,8 @@ MBTiles Server
   domain:        ${domain}
   verbose:       ${verbose}
 
-`)}
+`
+if (verbose) { process.stdout.write(status) }
 
 // Start
 server.start(uri, {domain, port, protocol, verbose})

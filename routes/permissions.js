@@ -1,15 +1,13 @@
-import { Router, Request, Response } from 'express'
-
-const router = Router()
+const router = require('express').Router()
 
 /**
  * Route for Permissions
  */
 router.route('*')
-  .all((request: Request, response: Response, next: any) => {
+  .all((request, response, next) => {
     response.header('Access-Control-Allow-Origin', '*')
     response.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,Cache-Control,Accept,Accept-Encoding')
     next()
   })
 
-export default router
+module.exports = router

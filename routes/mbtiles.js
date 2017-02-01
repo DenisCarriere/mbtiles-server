@@ -1,43 +1,32 @@
-import * as path from 'path'
-import * as mercator from 'global-mercator'
-import { Router, Request, Response } from 'express'
-import { URI } from '../index'
-import { Tile, getFiles } from '../utils'
-import { MBTiles } from 'mbtiles-offline'
+const path = require('path')
+const mercator = require('global-mercator')
+const router = require('express').Router()
+const URI = require('../').URI
+const getFiles = require('../utils').getFiles
+const MBTiles = require('mbtiles-offline').MBTiles
 const tiletype = require('@mapbox/tiletype')
-
-const router = Router()
-
-interface MBTilesRequest extends Request {
-  params: {
-    mbtiles: string
-    x: string
-    y: string
-    z: string
-    ext: string,
-  }
-}
 
 /**
  * Route MBTiles Metadata
  */
 router.route('/:mbtiles')
-  .get(async(req: MBTilesRequest, res: Response) => {
+  .get((req, res) => {
     const service = req.params.mbtiles
 
     // Check if Service exists
     if (getFiles(URI, /\.mbtiles$/).indexOf(service) === -1) {
       return res.json({
-        message: `[${ service }] service is not found`,
+        message: service + 'service is not found',
         ok: false,
         status: 500,
-        url: req.url,
+        url: req.url
       })
     }
     // Fetch tile from local MBTiles
-    const mbtiles = new MBTiles(path.join(URI, `${ service }.mbtiles`))
-    const metadata = await mbtiles.metadata()
-    res.json(metadata)
+    const mbtiles = new MBTiles(path.join(URI, service + '.mbtiles'))
+    mbtiles.metadata().then(metadata => {
+      res.json(metadata)
+    })
   })
 
 /**
@@ -48,18 +37,18 @@ router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|)')
 router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|)')
   .get(GetTile)
 
-function GetTile(req: MBTilesRequest, res: Response) {
+function GetTile (req, res) {
   const service = req.params.mbtiles
-  const tms: Tile = [Number(req.params.x), Number(req.params.y), Number(req.params.z)]
-  let tile: Tile
+  const tms = [Number(req.params.x), Number(req.params.y), Number(req.params.z)]
+  let tile
 
   // Check if Service exists
   if (getFiles(URI, /\.mbtiles$/).indexOf(service) === -1) {
     return res.json({
-      message: `[${ service }] service is not found`,
+      message: `[${service}] service is not found`,
       ok: false,
       status: 500,
-      url: req.url,
+      url: req.url
     })
   }
 
@@ -71,11 +60,11 @@ function GetTile(req: MBTilesRequest, res: Response) {
       message: e.message,
       ok: false,
       status: 500,
-      url: req.url,
+      url: req.url
     })
   }
   // Fetch tile from local MBTiles
-  const mbtiles = new MBTiles(path.join(URI, `${ service }.mbtiles`))
+  const mbtiles = new MBTiles(path.join(URI, service + '.mbtiles'))
   mbtiles.findOne(tile)
     .then(data => {
       if (data === undefined) {
@@ -83,7 +72,7 @@ function GetTile(req: MBTilesRequest, res: Response) {
           message: 'Tile not found',
           ok: false,
           status: 404,
-          url: req.url,
+          url: req.url
         })
       }
       res.set(tiletype.headers(data))
@@ -91,4 +80,4 @@ function GetTile(req: MBTilesRequest, res: Response) {
     })
 }
 
-export default router
+module.exports = router

@@ -1,14 +1,10 @@
-import * as fs from 'fs'
-import { URI } from '../index'
+const fs = require('fs')
+const URI = require('..').URI
 
-/**
- * Tile [x, y, z]
- */
-export type Tile = [number, number, number]
-
-export function getFiles(uri = URI, regex = /\.mbtiles$/): string[] {
+function getFiles (uri = URI, regex = /\.mbtiles$/) {
   let mbtiles = fs.readdirSync(uri).filter(value => value.match(regex))
   mbtiles = mbtiles.map(data => data.replace(regex, ''))
   mbtiles = mbtiles.filter(name => !name.match(/^_.*/))
   return mbtiles
 }
+module.exports.getFiles = getFiles
