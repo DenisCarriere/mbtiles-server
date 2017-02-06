@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 1.5.1 - 2017-02-06
+
+- Add Typescript definition
+- Upgrade mbtiles-offline
+
 ## 1.4.0 - 2017-02-01
 
 - Added KVP support for request Tile 1.0.0
