@@ -1,6 +1,6 @@
 {
   "name": "mbtiles-server",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
   "jsnext:main": "index.js",
@@ -31,7 +31,7 @@
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "global-mercator": "^1.6.1",
-    "mbtiles-offline": "1.2.0",
+    "mbtiles-offline": "^2.0.2",
     "meow": "^3.7.0",
     "wmts": "^1.4.0"
   },

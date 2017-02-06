@@ -1,6 +1,6 @@
 const path = require('path')
 const router = require('express').Router()
-const MBTiles = require('mbtiles-offline').MBTiles
+const MBTiles = require('mbtiles-offline')
 const wmts = require('wmts')
 const getFiles = require('../utils').getFiles
 const config = require('../config')
