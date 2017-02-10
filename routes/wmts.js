@@ -30,9 +30,9 @@ function WMTSCapabilities (req, res) {
       title: service,
       minzoom: metadata.minzoom,
       maxzoom: metadata.maxzoom,
-      description: metadata.description,
+      abstract: metadata.description,
       bbox: metadata.bounds,
-      format: 'jpeg',
+      format: metadata.format,
       spaces: 2
     })
     res.set('Content-Type', 'text/xml')
