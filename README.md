@@ -44,6 +44,18 @@ scalable. Therefore, servers must be able to return tiles quickly. A good way to
 that is to use locally stored pre-rendered tiles that will not require any image
 manipulation or geo-processing.
 
+## Environment Variables
+
+```
+export MBTILES_SERVER_PROTOCOL=http
+export MBTILES_SERVER_DOMAIN=localhost
+export MBTILES_SERVER_CACHE=/home/ubuntu/mbtiles
+export MBTILES_SERVER_PORT=5000
+export MBTILES_SERVER_VERBOSE=true
+```
+
+## API
+
 # start
 
 Start Server
@@ -65,32 +77,3 @@ server.start('~/mbtiles', {port: 5000, verbose: true})
 
 Returns **void** System output for logs
 
-# Changelog
-
-## 1.3.0 - 2017-01-10
-
-- Major refactoring
-- Improve CLI using `meow`
-- Update dependencies (including `mbtiles-offline`)
-
-## 1.2.0 - 2016-12-5
-
-- Add Metadata in utils
-- Replace dev dependencies to Jest
-
-## 1.1.1 - 2016-11-03
-
-- Add default export for Typescript
-
-## 1.1.0 - 2016-11-01
-
-- Add MBTiles Metadata route
-
-## 1.0.1 - 2016-10-31
-
-- Add WMTS library
-- First functional release
-
-## 0.1.0 - 2016-10-26
-
-- Project initialized

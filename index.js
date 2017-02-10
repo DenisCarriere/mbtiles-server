@@ -1,40 +1,40 @@
-const path = require('path')
-const os = require('os')
 const bodyParser = require('body-parser')
 const express = require('express')
+const config = require('./config')
 const routes = require('./routes')
 
 // Global Variables
-let PROTOCOL = 'http'
-let DOMAIN = 'localhost'
-let URI = path.join(os.homedir(), 'mbtiles')
-let PORT = 5000
-let VERBOSE = true
+let PROTOCOL = config.PROTOCOL
+let DOMAIN = config.DOMAIN
+let CACHE = config.CACHE
+let PORT = config.PORT
+let VERBOSE = config.VERBOSE
+
 module.exports.PROTOCOL = PROTOCOL
 module.exports.DOMAIN = DOMAIN
-module.exports.URI = URI
+module.exports.CACHE = CACHE
 module.exports.PORT = PORT
 module.exports.VERBOSE = VERBOSE
 
 /**
  * Start Server
  *
- * @param {string} [uri=~/mbtiles] URI file path
  * @param {string} [options] Server Options
+ * @param {string} [options.cache=~/mbtiles] CACHE file path
  * @param {string} [options.protocol='http'] URL Protocol
  * @param {string} [options.domain='localhost'] URL Domain
  * @param {string} [options.port=5000] URL Port
  * @param {string} [options.verbose=false] Verbose output
  * @returns {void} System output for logs
  * @example
- * server.start('~/mbtiles', {port: 5000, verbose: true})
+ * server.start({cache: '~/mbtiles', port: 5000, verbose: true})
  */
-function start (uri, options = {}) {
-  URI = uri || URI
+function start (options = {}) {
+  CACHE = options.cache || CACHE
   PROTOCOL = options.protocol || PROTOCOL
   DOMAIN = options.domain || DOMAIN
   PORT = options.port || PORT
-  VERBOSE = options.verbose
+  VERBOSE = options.verbose || VERBOSE
 
   // Settings
   const app = express()

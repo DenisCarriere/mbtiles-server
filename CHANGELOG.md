@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 1.6.0 - 2017-02-10
+
+- Run background services for Windows/MacOS/Linux
+
 ## 1.5.1 - 2017-02-06
 
 - Add Typescript definition

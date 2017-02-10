@@ -1,8 +1,8 @@
-const URI = require('../config').URI
+const CACHE = require('../config').CACHE
 const fs = require('fs')
 
-function getFiles (uri = URI, regex = /\.mbtiles$/) {
-  let mbtiles = fs.readdirSync(uri).filter(value => value.match(regex))
+function getFiles (cache = CACHE, regex = /\.mbtiles$/) {
+  let mbtiles = fs.readdirSync(cache).filter(value => value.match(regex))
   mbtiles = mbtiles.map(data => data.replace(regex, ''))
   mbtiles = mbtiles.filter(name => !name.match(/^_.*/))
   return mbtiles

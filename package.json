@@ -1,22 +1,21 @@
 {
   "name": "mbtiles-server",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
-  "jsnext:main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "start": "node cli.js --verbose",
     "test": "npm run lint && jest --coverage",
-    "docs": "tsc && cat HEADER.md > README.md && documentation build index.js -c documentation.yml -f md --shallow >> README.md && cat CHANGELOG.md >> README.md",
-    "lint": "tsc && tslint utils/*.ts routes/*.ts *.ts && documentation lint index.js"
+    "lint": "standard",
+    "docs": "documentation readme index.js --section=API"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DenisCarriere/mbtiles-server.git"
   },
   "bin": {
-    "mbtiles-server": "cli.js"
+    "mbtiles-server": "bin/mbtiles-server",
+    "mbtiles-server-service": "bin/mbtiles-server-service"
   },
   "author": "Denis Carriere <carriere.denis@gmail.com>",
   "contributors": [
@@ -35,6 +34,11 @@
     "mbtiles-offline": "^2.0.2",
     "meow": "^3.7.0",
     "wmts": "^1.4.0"
+  },
+  "optionalDependencies": {
+    "node-mac": "^0.1.7",
+    "node-windows": "^0.1.12",
+    "node-linux": "^0.1.11"
   },
   "devDependencies": {
     "coveralls": "^2.11.15",
