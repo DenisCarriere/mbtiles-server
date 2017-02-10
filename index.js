@@ -34,7 +34,7 @@ function start (options = {}) {
   PROTOCOL = options.protocol || PROTOCOL
   DOMAIN = options.domain || DOMAIN
   PORT = options.port || PORT
-  VERBOSE = options.verbose || VERBOSE
+  VERBOSE = options.verbose || VERBOSE || false
 
   // Settings
   const app = express()

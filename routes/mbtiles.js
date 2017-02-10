@@ -1,7 +1,7 @@
 const path = require('path')
 const mercator = require('global-mercator')
 const router = require('express').Router()
-const URI = require('../config').URI
+const CACHE = require('../config').CACHE
 const getFiles = require('../utils').getFiles
 const MBTiles = require('mbtiles-offline')
 const tiletype = require('@mapbox/tiletype')
@@ -14,7 +14,7 @@ router.route('/:mbtiles')
     const service = req.params.mbtiles
 
     // Check if Service exists
-    if (getFiles(URI, /\.mbtiles$/).indexOf(service) === -1) {
+    if (getFiles(CACHE, /\.mbtiles$/).indexOf(service) === -1) {
       return res.json({
         message: service + 'service is not found',
         ok: false,
@@ -23,7 +23,7 @@ router.route('/:mbtiles')
       })
     }
     // Fetch tile from local MBTiles
-    const mbtiles = new MBTiles(path.join(URI, service + '.mbtiles'))
+    const mbtiles = new MBTiles(path.join(CACHE, service + '.mbtiles'))
     mbtiles.metadata().then(metadata => {
       res.json(metadata)
     })
@@ -48,7 +48,7 @@ function GetTile (req, res) {
   let tile
 
   // Check if Service exists
-  if (getFiles(URI, /\.mbtiles$/).indexOf(service) === -1) {
+  if (getFiles(CACHE, /\.mbtiles$/).indexOf(service) === -1) {
     return res.json({
       message: `[${service}] service is not found`,
       ok: false,
@@ -69,7 +69,7 @@ function GetTile (req, res) {
     })
   }
   // Fetch tile from local MBTiles
-  const mbtiles = new MBTiles(path.join(URI, service + '.mbtiles'))
+  const mbtiles = new MBTiles(path.join(CACHE, service + '.mbtiles'))
   mbtiles.findOne(tile)
     .then(data => {
       if (data === undefined) {

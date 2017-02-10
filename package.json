@@ -1,10 +1,11 @@
 {
   "name": "mbtiles-server",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
+    "start": "node bin/mbtiles-server --verbose",
     "test": "npm run lint && jest --coverage",
     "lint": "standard",
     "docs": "documentation readme index.js --section=API --shallow"

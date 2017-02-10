@@ -41,7 +41,7 @@ MBTiles Server
   domain:        ${domain}
   verbose:       ${verbose}
 `
-process.stdout.write(status)
+if (verbose) { console.log(status) }
 
 // Start
 server.start({cache, domain, port, protocol, verbose})

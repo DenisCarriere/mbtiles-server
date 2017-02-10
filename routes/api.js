@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const URI = require('../').URI
+const CACHE = require('../').CACHE
 const PORT = require('../').PORT
 const getFiles = require('../utils').getFiles
 
@@ -18,9 +18,9 @@ router.route('/')
           '/<mbtiles>/WMTS/1.0.0/WMTSCapabilities.xml'
         ]
       },
-      mbtiles: getFiles(URI, /\.mbtiles$/),
+      mbtiles: getFiles(CACHE, /\.mbtiles$/),
       ok: true,
-      uri: URI,
+      cache: CACHE,
       port: PORT,
       status: 200
     })
