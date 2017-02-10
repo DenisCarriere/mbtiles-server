@@ -33,7 +33,7 @@
     "global-mercator": "^1.6.1",
     "mbtiles-offline": "^2.0.2",
     "meow": "^3.7.0",
-    "wmts": "^1.4.0"
+    "wmts": "^1.5.3"
   },
   "optionalDependencies": {
     "node-mac": "^0.1.7",

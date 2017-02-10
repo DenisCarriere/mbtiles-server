@@ -4,6 +4,7 @@
 ## 1.6.0 - 2017-02-10
 
 - Run background services for Windows/MacOS/Linux
+- Upgrade WMTS schema (ESRI wasn't compatible)
 
 ## 1.5.1 - 2017-02-06
 

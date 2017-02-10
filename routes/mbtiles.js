@@ -32,9 +32,9 @@ router.route('/:mbtiles')
 /**
  * Route for Single Tile Fetch
  */
-router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|)')
+router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|.jpeg|)')
   .get(GetTile)
-router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|)')
+router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|.jpeg|)')
   .get(GetTile)
 router.route('/:mbtiles/WMTS/tile/1.0.0/')
   .get(GetTile)
