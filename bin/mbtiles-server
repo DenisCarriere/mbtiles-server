@@ -3,7 +3,7 @@ const meow = require('meow')
 const server = require('../index')
 const config = require('../config')
 
-const cli = meow(`
+const example = `
   Usage
     $ mbtiles-server
 
@@ -16,7 +16,10 @@ const cli = meow(`
 
   Examples
     $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
-`, {
+`
+module.exports.example = example
+
+const cli = meow(example, {
   alias: {v: 'verbose'},
   boolean: ['verbose']
 })

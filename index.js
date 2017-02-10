@@ -27,7 +27,7 @@ module.exports.VERBOSE = VERBOSE
  * @param {string} [options.verbose=false] Verbose output
  * @returns {void} System output for logs
  * @example
- * server.start({cache: '~/mbtiles', port: 5000, verbose: true})
+ * server.start({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
  */
 function start (options = {}) {
   CACHE = options.cache || CACHE

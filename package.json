@@ -7,7 +7,7 @@
   "scripts": {
     "test": "npm run lint && jest --coverage",
     "lint": "standard",
-    "docs": "documentation readme index.js --section=API"
+    "docs": "documentation readme index.js --section=API --shallow"
   },
   "repository": {
     "type": "git",

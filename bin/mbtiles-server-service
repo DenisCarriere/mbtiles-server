@@ -4,6 +4,7 @@ const meow = require('meow')
 const chalk = require('chalk')
 const utils = require('../utils')
 const config = require('../config')
+const example = require('./mbtiles-server').example
 
 let Service
 switch (process.platform) {
@@ -21,20 +22,7 @@ switch (process.platform) {
     break
 }
 
-const cli = meow(`
-  Usage
-    $ mbtiles-server-service
-
-  Options
-    --cache           [~/mbtiles] Cache
-    --protocol        [http] Protocol
-    --port            [5000] Port
-    --domain          [localhost] Domain
-    --verbose         [false] Verbose output
-
-  Examples
-    $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
-`, {
+const cli = meow(example, {
   alias: {v: 'verbose'},
   boolean: ['verbose']
 })
