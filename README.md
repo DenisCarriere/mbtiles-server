@@ -50,6 +50,21 @@ $ export MBTILES_SERVER_PORT=5000
 $ export MBTILES_SERVER_VERBOSE=true
 ```
 
+## Docker
+
+A Dockerfile is provided for easy Docker deployment
+
+```
+$ docker build -t mbtiles-server .
+$ docker run --rm -it -p 5000:5000 -v /home/ubuntu/mbtiles/:/root/mbtiles mbtiles-server
+```
+
+**Run Docker as Background Service**
+
+```
+$ sudo docker run -d --name mbtiles-server -p 5000:5000 -v /home/ubuntu/mbtiles/:/root/mbtiles mbtiles-server
+```
+
 ## CLI Help
 
 For any additional help using the CLI, use the `--help` flag.

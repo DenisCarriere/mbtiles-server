@@ -5,7 +5,7 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "start": "node bin/mbtiles-server --verbose",
+    "start": "node ./bin/mbtiles-server --verbose",
     "test": "npm run lint && jest --coverage",
     "lint": "standard",
     "docs": "documentation readme index.js --section=API --shallow"
@@ -14,7 +14,7 @@
     "mbtiles-server": "bin/mbtiles-server",
     "mbtiles-server-service": "bin/mbtiles-server-service"
   },
-  "author": "Denis Carriere <denis.carriere@forces.gc.ca>",
+  "author": "Denis Carriere <carriere.denis@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@mapbox/tiletype": "^0.3.0",

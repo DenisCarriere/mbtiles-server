@@ -4,6 +4,7 @@
 ## 1.7.0 - 2017-02-13
 
 - Add options to windows service (start/stop/restart)
+- Add Docker build instructions
 
 ## 1.6.0 - 2017-02-10
 
