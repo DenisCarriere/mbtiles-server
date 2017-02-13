@@ -27,16 +27,18 @@ MBTiles Server Service
   verbose:       true
 ```
 
-## Background Service
+## Launch as Windows Service
 
 You can also run this server as a native OS background service.
 
 ```bash
-$ sudo mbtiles-server-service
+$ sudo mbtiles-server-service start
 Starting: mbtiles-server
 ```
 
 ## Environment Variables
+
+You can also define the CLI options as environment variables using the following:
 
 ```bash
 $ export MBTILES_SERVER_PROTOCOL=http

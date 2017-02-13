@@ -2,6 +2,7 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const config = require('./config')
 const routes = require('./routes')
+const utils = require('./utils')
 
 // Global Variables
 let PROTOCOL = config.PROTOCOL
@@ -35,6 +36,9 @@ function start (options = {}) {
   DOMAIN = options.domain || DOMAIN
   PORT = options.port || PORT
   VERBOSE = options.verbose || VERBOSE || false
+
+  // Create folder
+  utils.createFolders(CACHE)
 
   // Settings
   const app = express()

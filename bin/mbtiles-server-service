@@ -4,8 +4,8 @@ const meow = require('meow')
 const chalk = require('chalk')
 const utils = require('../utils')
 const config = require('../config')
-const example = require('./mbtiles-server').example
 
+// Install Background service based on OS
 let Service
 switch (process.platform) {
   case 'darwin':
@@ -22,7 +22,25 @@ switch (process.platform) {
     break
 }
 
-const cli = meow(example, {
+const cli = meow(`
+  Usage:
+    $ mbtiles-server-service
+
+  Options:
+    --cache           [~/mbtiles] Cache
+    --protocol        [http] Protocol
+    --port            [5000] Port
+    --domain          [localhost] Domain
+    --verbose         [false] Verbose output
+
+  Commands:
+    start             Start service
+    stop              Stop service
+    restart           Restart service
+
+  Examples:
+    $ mbtiles-server-service start --cache /Users/mac/mbtiles --port 5000 --verbose
+`, {
   alias: {v: 'verbose'},
   boolean: ['verbose']
 })
@@ -33,6 +51,10 @@ const domain = cli.flags.domain || config.DOMAIN
 const port = cli.flags.port || config.PORT
 const protocol = cli.flags.protocol || config.PROTOCOL
 const verbose = cli.flags.verbose
+const input = cli.input[0]
+
+// Validate options
+if (input === undefined) { utils.error('<command> is required (start|stop|restart)') }
 
 const svc = new Service({
   name: 'mbtiles-server',
@@ -49,26 +71,41 @@ const svc = new Service({
 
 svc.on('install', () => {
   console.log(chalk.bgGreen.black('Starting: mbtiles-server'))
-  if (verbose) {
-    console.log(`
+  console.log(`
 MBTiles Server Service
 
   cache:         ${cache}
   protocol:      ${protocol}
   port:          ${port}
   domain:        ${domain}
-  verbose:       ${verbose}`)
-  }
+  verbose:       ${verbose}
+`)
   svc.start()
 })
 
 svc.on('uninstall', () => {
-  console.log(chalk.bgRed.white('Stopping: mbtiles-server'))
-  setTimeout(() => svc.install(), 1000)
+  if (input === 'stop') { console.log(chalk.bgRed.white('Stopping: mbtiles-server')) }
+  if (input === 'restart' || input === 'start') {
+    console.log(chalk.bgRed.white('Restarting: mbtiles-server'))
+    setTimeout(() => svc.install(), 1000)
+  }
 })
 
-if (svc.exists) {
-  svc.uninstall()
-} else {
-  svc.install()
+// Start/Stop service
+switch (input) {
+  case 'start':
+  case 'restart':
+    if (svc.exists()) {
+      svc.uninstall()
+    } else {
+      svc.install()
+    }
+    break
+  case 'stop':
+    if (svc.exists()) {
+      svc.uninstall()
+    } else {
+      console.log(chalk.bgRed.white('Already stopped: mbtiles-server'))
+    }
+    break
 }

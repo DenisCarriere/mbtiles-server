@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 1.7.0 - 2017-02-13
+
+- Add options to windows service (start/stop/restart)
+
 ## 1.6.0 - 2017-02-10
 
 - Run background services for Windows/MacOS/Linux

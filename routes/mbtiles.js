@@ -1,10 +1,10 @@
 const path = require('path')
 const mercator = require('global-mercator')
 const router = require('express').Router()
-const CACHE = require('../config').CACHE
-const getFiles = require('../utils').getFiles
 const MBTiles = require('mbtiles-offline')
 const tiletype = require('@mapbox/tiletype')
+const CACHE = require('../config').CACHE
+const getFiles = require('../utils').getFiles
 
 /**
  * Route MBTiles Metadata
