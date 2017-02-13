@@ -29,7 +29,7 @@ MBTiles Server Service
   verbose:       true
 ```
 
-## Launch as Windows Service
+## Background Service
 
 You can also run this server as a native OS background service.
 
@@ -62,7 +62,7 @@ $ docker run --rm -it \
   deniscarriere/mbtiles-server
 ```
 
-**Run Docker as Background Service**
+**Start containers automatically**
 
 https://docs.docker.com/engine/admin/host_integration/
 
