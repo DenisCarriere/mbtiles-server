@@ -2,8 +2,13 @@
 const path = require('path')
 const meow = require('meow')
 const chalk = require('chalk')
+const updateNotifier = require('update-notifier')
+const pkg = require('../package.json')
 const utils = require('../utils')
 const config = require('../config')
+
+// Update if required
+updateNotifier({pkg}).notify()
 
 // Install Background service based on OS
 let Service
