@@ -55,14 +55,23 @@ $ export MBTILES_SERVER_VERBOSE=true
 A Dockerfile is provided for easy Docker deployment
 
 ```
-$ docker build -t mbtiles-server .
-$ docker run --rm -it -p 5000:5000 -v /home/ubuntu/mbtiles/:/root/mbtiles mbtiles-server
+$ docker pull deniscarriere/mbtiles-server
+$ docker run --rm -it \
+  -p 5000:5000 \
+  -v /home/ubuntu/mbtiles/:/root/mbtiles \
+  deniscarriere/mbtiles-server
 ```
 
 **Run Docker as Background Service**
 
+https://docs.docker.com/engine/admin/host_integration/
+
 ```
-$ sudo docker run -d --name mbtiles-server -p 5000:5000 -v /home/ubuntu/mbtiles/:/root/mbtiles mbtiles-server
+$ docker run -d \
+  --name mbtiles-server \
+  -p 5000:5000 \
+  -v /home/ubuntu/mbtiles/:/root/mbtiles \
+  deniscarriere/mbtiles-server
 ```
 
 ## CLI Help
