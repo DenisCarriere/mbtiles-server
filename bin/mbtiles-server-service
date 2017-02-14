@@ -100,14 +100,14 @@ svc.on('uninstall', () => {
 switch (input) {
   case 'start':
   case 'restart':
-    if (svc.exists()) {
+    if (svc.exists) {
       svc.uninstall()
     } else {
       svc.install()
     }
     break
   case 'stop':
-    if (svc.exists()) {
+    if (svc.exists) {
       svc.uninstall()
     } else {
       console.log(chalk.bgRed.white('Already stopped: mbtiles-server'))
