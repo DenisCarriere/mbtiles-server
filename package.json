@@ -1,6 +1,6 @@
 {
   "name": "mbtiles-server",
-  "version": "1.8.5",
+  "version": "1.8.6",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -11,8 +11,8 @@
     "docs": "documentation readme index.js --section=API --shallow"
   },
   "bin": {
-    "mbtiles-server": "bin/mbtiles-server",
-    "mbtiles-server-service": "bin/mbtiles-server-service"
+    "mbtiles-server": "bin/mbtiles-server.js",
+    "mbtiles-server-service": "bin/mbtiles-server-service.js"
   },
   "author": "Denis Carriere <carriere.denis@gmail.com>",
   "license": "MIT",
