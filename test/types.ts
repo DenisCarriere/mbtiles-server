@@ -1,3 +1,3 @@
 import * as server from '../'
 
-server.start('~/mbtiles', {verbose: true})
+server.start({cache: '~/mbtiles', verbose: true})

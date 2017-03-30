@@ -1,6 +1,6 @@
 {
   "name": "mbtiles-server",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -23,15 +23,16 @@
     "express": "^4.14.0",
     "global-mercator": "^1.6.1",
     "mbtiles-offline": "^2.3.5",
+    "mbtiles-server": "^1.9.0",
     "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
     "update-notifier": "^2.0.0",
     "wmts": "^1.5.3"
   },
   "optionalDependencies": {
+    "node-linux": "^0.1.11",
     "node-mac": "^0.1.7",
-    "node-windows": "^0.1.12",
-    "node-linux": "^0.1.11"
+    "node-windows": "^0.1.12"
   },
   "devDependencies": {
     "coveralls": "^2.11.15",

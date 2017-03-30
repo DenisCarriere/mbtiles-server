@@ -3,5 +3,6 @@ declare interface Options {
   domain?: string
   port?: number
   verbose?: boolean
+  cache?: string
 }
 export declare function start (options?: Options): void
