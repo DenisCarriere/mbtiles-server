@@ -3,11 +3,14 @@ const router = require('express').Router()
 const MBTiles = require('mbtiles-offline')
 const wmts = require('wmts')
 const getFiles = require('../utils').getFiles
-const config = require('../config')
-const CACHE = config.CACHE
-const PROTOCOL = config.PROTOCOL
-const DOMAIN = config.DOMAIN
-const PORT = config.PORT
+const Conf = require('conf')
+
+// Configurations
+const config = new Conf()
+const CACHE = config.get('CACHE')
+const PORT = config.get('PORT')
+const DOMAIN = config.get('DOMAIN')
+const PROTOCOL = config.get('PROTOCOL')
 
 function WMTSCapabilities (req, res) {
   const service = req.params.mbtiles

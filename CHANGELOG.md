@@ -3,6 +3,7 @@
 
 ## 1.9.0 - 2017-03-30
 
+- Add config store `conf`
 - Update options `start()`
 
 ## 1.7.0 - 2017-02-13

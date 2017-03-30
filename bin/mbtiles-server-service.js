@@ -5,7 +5,7 @@ const chalk = require('chalk')
 const updateNotifier = require('update-notifier')
 const pkg = require('../package.json')
 const utils = require('../utils')
-const config = require('../config')
+const DEFAULT = require('../config')
 
 // Update if required
 updateNotifier({pkg}).notify()
@@ -51,15 +51,15 @@ const cli = meow(`
 })
 
 // Define default options
-const cache = cli.flags.cache || config.CACHE
-const domain = cli.flags.domain || config.DOMAIN
-const port = cli.flags.port || config.PORT
-const protocol = cli.flags.protocol || config.PROTOCOL
-const verbose = cli.flags.verbose
-const input = cli.input[0]
+const cache = cli.flags.cache || DEFAULT.CACHE
+const domain = cli.flags.domain || DEFAULT.DOMAIN
+const port = cli.flags.port || DEFAULT.PORT
+const protocol = cli.flags.protocol || DEFAULT.PROTOCOL
+const verbose = cli.flags.verbose || DEFAULT.VERBOSE
+const command = cli.input[0]
 
 // Validate options
-if (input === undefined) { utils.error('<command> is required (start|stop|restart)') }
+if (command === undefined) { utils.error('<command> is required (start|stop|restart)') }
 
 const svc = new Service({
   name: 'mbtiles-server',
@@ -89,15 +89,15 @@ MBTiles Server Service
 })
 
 svc.on('uninstall', () => {
-  if (input === 'stop') { console.log(chalk.bgRed.white('Stopping: mbtiles-server')) }
-  if (input === 'restart' || input === 'start') {
+  if (command === 'stop') { console.log(chalk.bgRed.white('Stopping: mbtiles-server')) }
+  if (command === 'restart' || command === 'start') {
     console.log(chalk.bgRed.white('Restarting: mbtiles-server'))
     setTimeout(() => svc.install(), 1000)
   }
 })
 
 // Start/Stop service
-switch (input) {
+switch (command) {
   case 'start':
   case 'restart':
     if (svc.exists) {

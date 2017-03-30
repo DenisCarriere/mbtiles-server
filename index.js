@@ -1,21 +1,10 @@
 const bodyParser = require('body-parser')
 const express = require('express')
-const config = require('./config')
 const routes = require('./routes')
 const utils = require('./utils')
-
-// Global Variables
-let PROTOCOL = config.PROTOCOL
-let DOMAIN = config.DOMAIN
-let CACHE = config.CACHE
-let PORT = config.PORT
-let VERBOSE = config.VERBOSE
-
-module.exports.PROTOCOL = PROTOCOL
-module.exports.DOMAIN = DOMAIN
-module.exports.CACHE = CACHE
-module.exports.PORT = PORT
-module.exports.VERBOSE = VERBOSE
+require('./config')
+const Conf = require('conf')
+const config = new Conf()
 
 /**
  * Start Server
@@ -31,11 +20,17 @@ module.exports.VERBOSE = VERBOSE
  * server.start({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
  */
 function start (options = {}) {
-  CACHE = options.cache || CACHE
-  PROTOCOL = options.protocol || PROTOCOL
-  DOMAIN = options.domain || DOMAIN
-  PORT = options.port || PORT
-  VERBOSE = options.verbose || VERBOSE || false
+  const CACHE = options.cache || config.get('CACHE')
+  const PROTOCOL = options.protocol || config.get('PROTOCOL')
+  const DOMAIN = options.domain || config.get('DOMAIN')
+  const PORT = options.port || config.get('PORT')
+  const VERBOSE = options.verbose || config.get('VERBOSE')
+
+  config.set('PROTOCOL', PROTOCOL)
+  config.set('DOMAIN', DOMAIN)
+  config.set('PORT', PORT)
+  config.set('CACHE', CACHE)
+  config.set('VERBOSE', VERBOSE)
 
   // Create folder
   utils.createFolders(CACHE)

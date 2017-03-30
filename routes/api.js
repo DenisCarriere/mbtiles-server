@@ -1,7 +1,11 @@
 const router = require('express').Router()
-const CACHE = require('../').CACHE
-const PORT = require('../').PORT
 const getFiles = require('../utils').getFiles
+const Conf = require('conf')
+
+// Configurations
+const config = new Conf()
+const CACHE = config.get('CACHE')
+const PORT = config.get('PORT')
 
 /**
  * Route for API
