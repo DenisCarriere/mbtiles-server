@@ -14,7 +14,7 @@
     "mbtiles-server": "bin/mbtiles-server.js",
     "mbtiles-server-service": "bin/mbtiles-server-service.js"
   },
-  "author": "Denis Carriere <carriere.denis@gmail.com>",
+  "author": "DLCSPM Software Engineering Facility (DSEF)",
   "license": "MIT",
   "dependencies": {
     "@mapbox/tiletype": "^0.3.0",
