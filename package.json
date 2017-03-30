@@ -1,6 +1,6 @@
 {
   "name": "mbtiles-server",
-  "version": "1.8.7",
+  "version": "1.9.0",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
   "types": "index.d.ts",

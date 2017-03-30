@@ -4,4 +4,4 @@ declare interface Options {
   port?: number
   verbose?: boolean
 }
-export declare function start (uri?: string, options?: Options): void
+export declare function start (options?: Options): void
