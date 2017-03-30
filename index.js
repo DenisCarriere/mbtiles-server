@@ -31,9 +31,6 @@ function start (options = {}) {
   config.set('CACHE', CACHE)
   config.set('VERBOSE', VERBOSE)
 
-  console.log('index cache', CACHE)
-  console.log('index port', PORT)
-
   // Create folder
   utils.createFolders(CACHE)
 

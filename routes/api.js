@@ -7,9 +7,6 @@ const config = new Conf()
 const CACHE = config.get('CACHE')
 const PORT = config.get('PORT')
 
-console.log('api cache', CACHE)
-console.log('api port', PORT)
-
 /**
  * Route for API
  */
