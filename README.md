@@ -37,35 +37,22 @@ $ sudo mbtiles-server-service start
 Starting: mbtiles-server
 ```
 
-## Environment Variables
-
-You can also define the CLI options as environment variables using the following:
-
-```bash
-$ export MBTILES_SERVER_PROTOCOL=http
-$ export MBTILES_SERVER_DOMAIN=localhost
-$ export MBTILES_SERVER_CACHE=/home/ubuntu/mbtiles
-$ export MBTILES_SERVER_PORT=5000
-$ export MBTILES_SERVER_VERBOSE=true
-```
-
 ## Docker
 
 A Dockerfile is provided for easy Docker deployment
 
-```
+```bash
 $ docker pull deniscarriere/mbtiles-server
 $ docker run --rm -it \
   -p 5000:5000 \
   -v /home/ubuntu/mbtiles/:/root/mbtiles \
   deniscarriere/mbtiles-server
 ```
-
 **Start containers automatically**
 
-https://docs.docker.com/engine/admin/host_integration/
+<https://docs.docker.com/engine/admin/host_integration/>
 
-```
+```bash
 $ docker run -d \
   --name mbtiles-server \
   -p 5000:5000 \

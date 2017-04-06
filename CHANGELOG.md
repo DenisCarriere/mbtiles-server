@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 1.10.0 - 2017-04-06
+
+- Change default `domain` to `127.0.0.1` (less chances of proxy errors vs. using `localhost`)
+
 ## 1.9.0 - 2017-03-30
 
 - Add config store `conf`
