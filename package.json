@@ -32,7 +32,6 @@
     "express": "^4.14.0",
     "global-mercator": "^2.7.0",
     "mbtiles-offline": "^2.3.5",
-    "mbtiles-server": "^1.9.1",
     "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
     "update-notifier": "^2.0.0",
