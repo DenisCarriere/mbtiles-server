@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 1.11.0 - 2017-05-04
+
+- Refactored WMTS & MBTiles routes
+
 ## 1.10.0 - 2017-04-06
 
 - Change default `domain` to `127.0.0.1` (less chances of proxy errors vs. using `localhost`)
