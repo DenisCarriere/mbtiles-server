@@ -1,2 +1,1 @@
-const utils = require('./utils')
-module.exports = utils
+module.exports = require('./utils')

@@ -1,17 +1,17 @@
 const fs = require('fs')
 const path = require('path')
-const router = require('express').Router()
-const MBTiles = require('mbtiles-offline')
 const wmts = require('wmts')
 const Conf = require('conf')
+const router = require('express').Router()
+const MBTiles = require('mbtiles-offline')
 const mercator = require('global-mercator')
 const tiletype = require('@mapbox/tiletype')
 const {mbtilesNotFound, invalidTile, tileNotFound} = require('./utils')
 
 // Configurations
 const config = new Conf()
-const CACHE = config.get('CACHE')
 const PORT = config.get('PORT')
+const CACHE = config.get('CACHE')
 const DOMAIN = config.get('DOMAIN')
 const PROTOCOL = config.get('PROTOCOL')
 
@@ -33,7 +33,6 @@ router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|.jpeg|)')
 
 function GetCapabilities (req, res) {
   const service = req.params.mbtiles
-  const request = req.query.request
   const filepath = path.join(CACHE, service + '.mbtiles')
   const url = req.url
 

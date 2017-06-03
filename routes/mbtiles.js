@@ -1,11 +1,11 @@
 const fs = require('fs')
+const Conf = require('conf')
 const path = require('path')
 const router = require('express').Router()
 const MBTiles = require('mbtiles-offline')
 const {mbtilesNotFound} = require('./utils')
 
 // Configurations
-const Conf = require('conf')
 const config = new Conf()
 const CACHE = config.get('CACHE')
 

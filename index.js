@@ -1,6 +1,6 @@
-const bodyParser = require('body-parser')
+const mkdirp = require('mkdirp')
 const express = require('express')
-const utils = require('./utils')
+const bodyParser = require('body-parser')
 const DEFAULT = require('./config')
 
 /**
@@ -32,7 +32,7 @@ function start (options = {}) {
   config.set('VERBOSE', VERBOSE)
 
   // Create folder
-  utils.createFolders(CACHE)
+  mkdirp.sync(CACHE)
 
   // Settings
   const app = express()

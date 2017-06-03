@@ -27,11 +27,11 @@ const cli = meow(`
 })
 
 // Define default options
+const port = cli.flags.port || DEFAULT.PORT
 const cache = cli.flags.cache || DEFAULT.CACHE
 const domain = cli.flags.domain || DEFAULT.DOMAIN
-const port = cli.flags.port || DEFAULT.PORT
-const protocol = cli.flags.protocol || DEFAULT.PROTOCOL
 const verbose = cli.flags.verbose || DEFAULT.VERBOSE
+const protocol = cli.flags.protocol || DEFAULT.PROTOCOL
 
 // Verbose output
 const status = `

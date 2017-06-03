@@ -1,23 +1,22 @@
-const CACHE = require('../config').CACHE
 const fs = require('fs')
-const mkdirp = require('mkdirp')
-const chalk = require('chalk')
+const {CACHE} = require('../config')
 
-module.exports.getFiles = (cache = CACHE, regex = /\.mbtiles$/) => {
-  let mbtiles = fs.readdirSync(cache).filter(value => value.match(regex))
-  mbtiles = mbtiles.map(data => data.replace(regex, ''))
-  mbtiles = mbtiles.filter(name => !name.match(/^_.*/))
-  return mbtiles
+/**
+ * Get Files
+ *
+ * @param {string} cache File Path
+ * @param {ReGex} regex MBTiles pattern
+ * @returns {string[]}
+ * getFiles('~/mbtiles')
+ * //= ['example', 'foo', 'bar']
+ */
+function getFiles (cache = CACHE, regex = /\.mbtiles$/) {
+  return fs.readdirSync(cache)
+    .filter(value => value.match(regex))
+    .map(data => data.replace(regex, ''))
+    .filter(name => !name.match(/^_.*/))
 }
 
-module.exports.error = (message) => {
-  throw new Error(chalk.bgRed.white(message))
-}
-
-module.exports.warning = (message) => {
-  console.log(chalk.bgYellow.black(message))
-}
-
-module.exports.createFolders = (location) => {
-  mkdirp(location, () => true)
+module.exports = {
+  getFiles
 }

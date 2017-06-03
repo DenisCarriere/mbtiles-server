@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 2.0.0 - 2017-06-03
+
+- Refactored library to use EventEmitters
+- Dropped background service support in favor of Docker
+
 ## 1.11.0 - 2017-05-04
 
 - Refactored WMTS & MBTiles routes
