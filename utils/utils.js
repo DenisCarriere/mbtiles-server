@@ -1,4 +1,5 @@
 const fs = require('fs')
+const mkdirp = require('mkdirp')
 const {CACHE} = require('../config')
 
 /**
@@ -11,6 +12,8 @@ const {CACHE} = require('../config')
  * //= ['example', 'foo', 'bar']
  */
 function getFiles (cache = CACHE, regex = /\.mbtiles$/) {
+  if (!fs.existsSync(cache)) mkdirp.sync(cache)
+
   return fs.readdirSync(cache)
     .filter(value => value.match(regex))
     .map(data => data.replace(regex, ''))

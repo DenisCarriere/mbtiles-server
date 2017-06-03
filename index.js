@@ -56,7 +56,7 @@ module.exports = function (options = {}) {
       this.cache = cache
 
       // Create folder
-      mkdirp.sync(cache)
+      if (!fs.existsSync(cache)) mkdirp.sync(cache)
 
       // Restart if file change detected
       fs.watchFile(cache, current => {
