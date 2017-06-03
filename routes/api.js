@@ -1,19 +1,17 @@
-const Conf = require('conf')
+const Conf = require('../plugins/conf')
 const router = require('express').Router()
 const {getFiles} = require('../utils')
 
 // Configurations
 const config = new Conf()
-const PORT = config.get('PORT')
-const CACHE = config.get('CACHE')
 
 /**
  * Route for API
  */
 router.route('/')
   .all((req, res) => {
-    // const CACHE = router.get('CACHE')
-    // const PORT = router.get('PORT')
+    const PORT = config.get('PORT')
+    const CACHE = config.get('CACHE')
 
     res.json({
       api: `MBTiles Server ${require('../package.json').version}`,

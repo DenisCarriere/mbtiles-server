@@ -1,6 +1,9 @@
+const fs = require('fs')
+const Conf = require('./plugins/conf')
 const mkdirp = require('mkdirp')
 const express = require('express')
 const bodyParser = require('body-parser')
+const {EventEmitter} = require('events')
 const DEFAULT = require('./config')
 
 /**
@@ -8,31 +11,17 @@ const DEFAULT = require('./config')
  *
  * @param {string} [options] Server Options
  * @param {string} [options.cache=~/mbtiles] CACHE file path
- * @param {string} [options.protocol='http'] URL Protocol
  * @param {string} [options.domain='localhost'] URL Domain
  * @param {string} [options.port=5000] URL Port
- * @param {string} [options.verbose=false] Verbose output
- * @returns {void} System output for logs
+ * @returns {EventEmitter} EventEmitter
  * @example
- * server.start({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
+ * server({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
  */
-function start (options = {}) {
-  const Conf = require('conf')
+module.exports = function (options = {}) {
   const config = new Conf()
-  const CACHE = options.cache || DEFAULT.CACHE
-  const PROTOCOL = options.protocol || DEFAULT.PROTOCOL
-  const PORT = options.port || DEFAULT.PORT
-  const DOMAIN = options.domain || DEFAULT.DOMAIN
-  const VERBOSE = options.verbose || DEFAULT.VERBOSE
-
-  config.set('PROTOCOL', PROTOCOL)
-  config.set('DOMAIN', DOMAIN)
-  config.set('PORT', PORT)
-  config.set('CACHE', CACHE)
-  config.set('VERBOSE', VERBOSE)
-
-  // Create folder
-  mkdirp.sync(CACHE)
+  config.set('PORT', options.port || DEFAULT.PORT)
+  config.set('DOMAIN', options.domain || DEFAULT.DOMAIN)
+  config.set('CACHE', options.cache || DEFAULT.CACHE)
 
   // Settings
   const app = express()
@@ -40,6 +29,88 @@ function start (options = {}) {
   app.set('json spaces', 2)
   app.use(bodyParser.urlencoded({ extended: true }))
   app.set('trust proxy', true)
+
+  /**
+   * Server
+   */
+  class Server extends EventEmitter {
+    /**
+     * Start Server
+     *
+     * @param {string} [options] Server Options
+     * @param {string} [options.cache=~/mbtiles] CACHE file path
+     * @param {string} [options.domain='localhost'] URL Domain
+     * @param {string} [options.port=5000] URL Port
+     * @returns {Promise<Object>} port
+     */
+    start (options = {}) {
+      const port = options.port || DEFAULT.PORT
+      const domain = options.domain || DEFAULT.DOMAIN
+      const cache = options.cache || DEFAULT.CACHE
+      options = {port, domain, cache}
+
+      // Save local settings
+      config.set('PORT', port)
+      config.set('DOMAIN', domain)
+      config.set('CACHE', cache)
+      this.cache = cache
+
+      // Create folder
+      mkdirp.sync(cache)
+
+      // Restart if file change detected
+      fs.watchFile(cache, current => {
+        this.restart(options)
+      })
+
+      return new Promise((resolve, reject) => {
+        this.server = app.listen(port, () => {
+          this.emit('start', options)
+          return resolve(options)
+        })
+        this.server.on('error', error => {
+          return reject(error)
+        })
+      })
+    }
+
+    /**
+     * Shutdown Server
+     *
+     * @returns {Promise<void>}
+     */
+    close () {
+      return new Promise(resolve => {
+        if (!this.server) return resolve()
+        this.server.close(() => {
+          this.emit('end')
+          this.server = undefined
+          fs.unwatchFile(this.cache)
+          return resolve()
+        })
+      })
+    }
+
+    /**
+     * Restart Server
+     *
+     * @param {string} [options] Server Options
+     * @param {string} [options.cache=~/mbtiles] CACHE file path
+     * @param {string} [options.domain='localhost'] URL Domain
+     * @param {string} [options.port=5000] URL Port
+     * @returns {Promise<Object>} options
+     */
+    restart (options = {}) {
+      return new Promise(resolve => {
+        this.close().then(() => {
+          this.start(options).then(options => {
+            return resolve(options)
+          })
+        })
+      })
+    }
+  }
+  const ee = new Server()
 
   // Logging Middleware
   app.use((req, res, next) => {
@@ -51,7 +122,7 @@ function start (options = {}) {
       query: req.query,
       params: req.params
     }
-    if (VERBOSE) { process.stdout.write(JSON.stringify(log)) }
+    ee.emit('log', log)
     next()
   })
 
@@ -62,8 +133,7 @@ function start (options = {}) {
   app.use('/', routes.mbtiles)
   app.use('/', routes.wmts)
 
-  // Start Listening
-  app.listen(PORT)
-  if (VERBOSE) { process.stdout.write('Listening on PORT ' + PORT) }
+  // Auto-start server
+  ee.start(options)
+  return ee
 }
-module.exports.start = start

@@ -3,6 +3,8 @@
 
 ## 2.0.0 - 2017-06-03
 
+- Add Benchmark reults (1K requests => 2.5s)
+- Restart server if file changes
 - Refactored library to use EventEmitters
 - Dropped background service support in favor of Docker
 

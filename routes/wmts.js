@@ -1,12 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 const wmts = require('wmts')
-const Conf = require('conf')
+const Conf = require('../plugins/conf')
 const router = require('express').Router()
 const MBTiles = require('mbtiles-offline')
 const mercator = require('global-mercator')
 const tiletype = require('@mapbox/tiletype')
 const {mbtilesNotFound, invalidTile, tileNotFound} = require('./utils')
+const {getFiles} = require('../utils')
 
 // Configurations
 const config = new Conf()
@@ -14,6 +15,13 @@ const PORT = config.get('PORT')
 const CACHE = config.get('CACHE')
 const DOMAIN = config.get('DOMAIN')
 const PROTOCOL = config.get('PROTOCOL')
+
+// Store all MBTiles
+const MBTILES = new Map()
+console.log('cache', CACHE)
+getFiles(CACHE).forEach(service => {
+  MBTILES.set(service, new MBTiles(path.join(CACHE, service + '.mbtiles')))
+})
 
 /**
  * Routes
@@ -35,7 +43,6 @@ function GetCapabilities (req, res) {
   const service = req.params.mbtiles
   const filepath = path.join(CACHE, service + '.mbtiles')
   const url = req.url
-
   if (!fs.existsSync(filepath)) return mbtilesNotFound(url, service, filepath, res)
 
   const mbtiles = new MBTiles(filepath)
@@ -78,7 +85,7 @@ function GetTile (req, res) {
   if (!mercator.validTile(tms)) return invalidTile(url, service, tms, res)
 
   const tile = mercator.tileToGoogle(tms)
-  const mbtiles = new MBTiles(path.join(CACHE, service + '.mbtiles'))
+  const mbtiles = MBTILES.get(service)
   return mbtiles.findOne(tile)
     .then(data => {
       if (data === undefined) return tileNotFound(url, service, tms, res)

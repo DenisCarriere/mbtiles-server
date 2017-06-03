@@ -28,25 +28,16 @@ MBTiles Server Service
   verbose:       true
 ```
 
-## Background Service
-
-You can also run this server as a native OS background service.
-
-```bash
-$ sudo mbtiles-server-service start
-Starting: mbtiles-server
-```
-
 ## Docker
 
 A Dockerfile is provided for easy Docker deployment
 
 ```bash
-$ docker pull deniscarriere/mbtiles-server
+$ docker build -t mbtiles-server .
 $ docker run --rm -it \
   -p 5000:5000 \
-  -v /home/ubuntu/mbtiles/:/root/mbtiles \
-  deniscarriere/mbtiles-server
+  -v ~/mbtiles/:/root/mbtiles \
+  mbtiles-server
 ```
 **Start containers automatically**
 
@@ -56,8 +47,8 @@ $ docker run --rm -it \
 $ docker run -d \
   --name mbtiles-server \
   -p 5000:5000 \
-  -v /home/ubuntu/mbtiles/:/root/mbtiles \
-  deniscarriere/mbtiles-server
+  -v ~/mbtiles/:/root/mbtiles \
+  mbtiles-server
 ```
 
 ## CLI Help
@@ -90,23 +81,17 @@ manipulation or geo-processing.
 
 ## API
 
-### start
-
-Start Server
+### Server
 
 **Parameters**
 
 -   `options` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** Server Options
     -   `options.cache` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** CACHE file path (optional, default `~/mbtiles`)
-    -   `options.protocol` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** URL Protocol (optional, default `'http'`)
     -   `options.domain` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** URL Domain (optional, default `'localhost'`)
     -   `options.port` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** URL Port (optional, default `5000`)
-    -   `options.verbose` **\[[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)]** Verbose output (optional, default `false`)
 
 **Examples**
 
 ```javascript
-server.start({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
+server({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
 ```
-
-Returns **void** System output for logs

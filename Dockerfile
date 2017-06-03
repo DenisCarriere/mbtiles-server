@@ -1,11 +1,19 @@
-FROM mhart/alpine-node
-MAINTAINER Denis Carriere - carriere.denis@gmail.com
+FROM node:6
+MAINTAINER Denis Carriere <@DenisCarriere>
+
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 # Install app dependencies
-WORKDIR /src
-ADD . .
-RUN npm install
+COPY package.json /usr/src/app/
+COPY yarn.lock /usr/src/app/
+RUN yarn
+
+# Bundle app source
+COPY . /usr/src/app/
+RUN mkdir -p /root/mbtiles
 
 # Run App
 EXPOSE 5000
-CMD npm start
+CMD ["yarn", "start"]

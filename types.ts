@@ -1,3 +1,5 @@
 import * as server from './'
 
-server.start({cache: '~/mbtiles', verbose: true})
+const ee = server({cache: '~/mbtiles', verbose: true})
+
+ee.on('start', () => console.log('boom!'))

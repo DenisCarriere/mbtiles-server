@@ -2,8 +2,8 @@
 const meow = require('meow')
 const updateNotifier = require('update-notifier')
 const pkg = require('../package.json')
-const server = require('../index')
 const DEFAULT = require('../config')
+const server = require('../')
 
 // Update if required
 updateNotifier({pkg}).notify()
@@ -14,7 +14,6 @@ const cli = meow(`
 
   Options:
     --cache           [~/mbtiles] Cache
-    --protocol        [http] Protocol
     --port            [5000] Port
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
@@ -31,19 +30,23 @@ const port = cli.flags.port || DEFAULT.PORT
 const cache = cli.flags.cache || DEFAULT.CACHE
 const domain = cli.flags.domain || DEFAULT.DOMAIN
 const verbose = cli.flags.verbose || DEFAULT.VERBOSE
-const protocol = cli.flags.protocol || DEFAULT.PROTOCOL
 
 // Verbose output
 const status = `
 MBTiles Server
 
   cache:         ${cache}
-  protocol:      ${protocol}
   port:          ${port}
   domain:        ${domain}
   verbose:       ${verbose}
 `
-if (verbose) { console.log(status) }
 
-// Start
-server.start({cache, domain, port, protocol, verbose})
+const ee = server({cache, domain, port, verbose})
+
+ee.on('start', () => {
+  if (verbose) console.log(status)
+})
+
+ee.on('log', log => {
+  if (verbose) console.log(log)
+})

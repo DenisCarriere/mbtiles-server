@@ -1,8 +1,26 @@
+/// <reference types="node" />
+
+import {EventEmitter} from 'events'
+
+interface Status {}
+
 declare interface Options {
-  protocol?: string
   domain?: string
   port?: number
-  verbose?: boolean
   cache?: string
 }
-export declare function start (options?: Options): void
+
+interface Server extends EventEmitter {
+  // Operations
+  start(options: Options): Promise<Options>;
+  restart(options: Options): Promise<Options>;
+  close(): Promise<void>;
+
+  // Listeners
+  on(type: 'start', callback: (options: Options) => void): this;
+  on(type: 'end', callback: () => void): this;
+}
+
+declare function server(options?: Options): Server
+declare namespace server {}
+export = server
