@@ -44,9 +44,9 @@ MBTiles Server
 const ee = server({cache, domain, port, verbose})
 
 ee.on('start', () => {
-  if (verbose) console.log(status)
+  if (verbose) process.stdout.write(status + '\n')
 })
 
 ee.on('log', log => {
-  if (verbose) console.log(log)
+  if (verbose) process.stdout.write(JSON.stringify(log) + '\n')
 })

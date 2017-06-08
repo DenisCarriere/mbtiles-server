@@ -1,5 +1,5 @@
 const fs = require('fs')
-const Conf = require('./plugins/conf')
+const Conf = require('conf')
 const mkdirp = require('mkdirp')
 const express = require('express')
 const bodyParser = require('body-parser')

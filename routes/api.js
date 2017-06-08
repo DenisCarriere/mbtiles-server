@@ -1,4 +1,4 @@
-const Conf = require('../plugins/conf')
+const Conf = require('conf')
 const router = require('express').Router()
 const {getFiles} = require('../utils')
 

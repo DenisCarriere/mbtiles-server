@@ -1,6 +1,6 @@
 {
   "name": "mbtiles-server",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -25,7 +25,7 @@
   "dependencies": {
     "@mapbox/tiletype": "^0.3.0",
     "body-parser": "^1.15.2",
-    "conf": "^0.12.0",
+    "conf": "^1.1.2",
     "express": "^4.14.0",
     "global-mercator": "^2.7.0",
     "mbtiles-offline": "^2.3.5",
