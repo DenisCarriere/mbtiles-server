@@ -2,7 +2,14 @@
 
 import {EventEmitter} from 'events'
 
-interface Status {}
+interface Log {
+  body: any
+  ip: string
+  method: string
+  url: string
+  query: any
+  params: any
+}
 
 declare interface Options {
   domain?: string
@@ -19,6 +26,7 @@ interface Server extends EventEmitter {
   // Listeners
   on(type: 'start', callback: (options: Options) => void): this;
   on(type: 'end', callback: () => void): this;
+  on(type: 'log', callback: (log: Log) => void): this;
 }
 
 declare function server(options?: Options): Server
