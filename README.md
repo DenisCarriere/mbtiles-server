@@ -30,6 +30,9 @@ MBTiles Server Service
 
 ## Benchmark
 
+- 1 Active User => 400 requests/min
+- 1 Passive User => 50 requests/min
+
 | Requests | Response Time |
 |-----|-----------|
 | 1   | 33.460ms  |
