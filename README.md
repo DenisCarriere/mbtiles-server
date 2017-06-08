@@ -41,6 +41,10 @@ MBTiles Server Service
 | 1K  | 2.698s    |
 | 10K | 25.457s   |
 
+**Total 24,000 requests / min**
+
+Using `mbtiles-server` you could easily sustain 60 active users and up to 480 passive users. These tests were done on the server locally, network traffic and switches could slow down these results significantly.
+
 ## Docker
 
 A Dockerfile is provided for easy Docker deployment
