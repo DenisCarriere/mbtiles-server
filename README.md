@@ -28,6 +28,16 @@ MBTiles Server Service
   verbose:       true
 ```
 
+## Benchmark
+
+| Requests | Response Time |
+|-----|-----------|
+| 1   | 33.460ms  |
+| 10  | 45.223ms  |
+| 100 | 374.217ms |
+| 1K  | 2.698s    |
+| 10K | 25.457s   |
+
 ## Docker
 
 A Dockerfile is provided for easy Docker deployment
