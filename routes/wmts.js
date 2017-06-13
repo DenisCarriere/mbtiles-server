@@ -6,7 +6,7 @@ const router = require('express').Router()
 const MBTiles = require('mbtiles-offline')
 const mercator = require('global-mercator')
 const tiletype = require('@mapbox/tiletype')
-const {mbtilesNotFound, invalidTile, tileNotFound} = require('./utils')
+const {mbtilesNotFound, invalidTile, tileNotFound, invalidVersion, invalidService, getQuery, invalidQuery} = require('./utils')
 const {getFiles} = require('../utils')
 
 // Configurations
@@ -29,24 +29,30 @@ getFiles(CACHE).forEach(service => {
 router.route('/:mbtiles/WMTS/1.0.0/WMTSCapabilities.xml')
   .get(GetCapabilitiesRESTful)
 router.route('/:mbtiles/WMTS')
-  .get(GetCapabilitiesRESTful)
-router.route('/:mbtiles/WMTS?')
-  .get(GetCapabilities)
+  .get(GetCapabilitiesKVP)
 router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|.jpeg|)')
-  .get(GetTile)
-router.route('/:mbtiles/WMTS/tile/1.0.0/')
-  .get(GetTile)
+  .get(GetTileRESTful)
 router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|.jpeg|)')
-  .get(GetTile)
+  .get(GetTileRESTful)
 
-function GetCapabilities (req, res) {
-  const service = req.params.mbtiles
-  const filepath = path.join(CACHE, service + '.mbtiles')
+function GetCapabilitiesKVP (req, res) {
+  const layer = req.params.mbtiles
+  const filepath = path.join(CACHE, layer + '.mbtiles')
   const url = req.url
-  if (!fs.existsSync(filepath)) return mbtilesNotFound(url, service, filepath, res)
+
+  const {request, version, service} = getQuery(req)
+  if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
 
   const mbtiles = new MBTiles(filepath)
-  return mbtilesMedataToXML(mbtiles, service, res)
+  switch (request) {
+    case 'getcapabilities':
+      if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
+      if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
+      return mbtilesMedataToXML(mbtiles, layer, res)
+    case undefined:
+      return mbtilesMedataToXML(mbtiles, layer, res)
+  }
+  return GetTileKVP(req, res)
 }
 
 /**
@@ -56,39 +62,79 @@ function GetCapabilities (req, res) {
  * @param {Response} res
  */
 function GetCapabilitiesRESTful (req, res) {
-  const service = req.params.mbtiles
-  const filepath = path.join(CACHE, service + '.mbtiles')
-  const url = req.url
+  const layer = req.params.mbtiles
+  const filepath = path.join(CACHE, layer + '.mbtiles')
+  const {url} = req
 
-  if (!fs.existsSync(filepath)) return mbtilesNotFound(url, service, filepath, res)
+  if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
 
   const mbtiles = new MBTiles(filepath)
-  return mbtilesMedataToXML(mbtiles, service, res)
+  return mbtilesMedataToXML(mbtiles, layer, res)
 }
 
 /**
- * GetTile
+ * GetTile KVP
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @example
+ * // http://localhost:5000/default/wmts?request=GetTile&version=1.0.0&service=wmts&tilecol=0&tilerow=0&tilematrix=0
+ */
+function GetTileKVP (req, res) {
+  const layer = req.params.mbtiles
+  const {tilecol, tilerow, tilematrix, request, version, service} = getQuery(req)
+  const x = Number(tilecol)
+  const y = Number(tilerow)
+  const z = Number(tilematrix)
+  const tms = [x, y, z]
+  const url = req.url
+  const filepath = path.join(CACHE, layer + '.mbtiles')
+
+  switch (request) {
+    case 'gettile':
+      // validation
+      if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
+      if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
+      if (tilecol === undefined) return invalidQuery(url, layer, filepath, 'tilecol', res)
+      if (tilerow === undefined) return invalidQuery(url, layer, filepath, 'tilerow', res)
+      if (tilematrix === undefined) return invalidQuery(url, layer, filepath, 'tilematrix', res)
+      if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
+      if (!mercator.validTile(tms)) return invalidTile(url, layer, tms, res)
+
+      const tile = mercator.tileToGoogle(tms)
+      const mbtiles = MBTILES.get(layer)
+      return mbtiles.findOne(tile)
+        .then(data => {
+          if (data === undefined) return tileNotFound(url, layer, tms, res)
+          res.set(tiletype.headers(data))
+          return res.end(data, 'binary')
+        })
+  }
+}
+
+/**
+ * GetTile RESTful
  *
  * @param {Request} req
  * @param {Response} res
  */
-function GetTile (req, res) {
-  const service = req.params.mbtiles
+function GetTileRESTful (req, res) {
+  const layer = req.params.mbtiles
   const x = Number(req.params.x || req.query.TILECOL)
   const y = Number(req.params.y || req.query.TILEROW)
   const z = Number(req.params.z || req.query.TILEMATRIX)
   const tms = [x, y, z]
   const url = req.url
-  const filepath = path.join(CACHE, service + '.mbtiles')
+  const filepath = path.join(CACHE, layer + '.mbtiles')
 
-  if (!fs.existsSync(filepath)) return mbtilesNotFound(url, service, filepath, res)
-  if (!mercator.validTile(tms)) return invalidTile(url, service, tms, res)
+  if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
+  if (!mercator.validTile(tms)) return invalidTile(url, layer, tms, res)
 
   const tile = mercator.tileToGoogle(tms)
-  const mbtiles = MBTILES.get(service)
+  const mbtiles = MBTILES.get(layer)
   return mbtiles.findOne(tile)
     .then(data => {
-      if (data === undefined) return tileNotFound(url, service, tms, res)
+      if (data === undefined) return tileNotFound(url, layer, tms, res)
       res.set(tiletype.headers(data))
       return res.end(data, 'binary')
     })
@@ -98,14 +144,14 @@ function GetTile (req, res) {
  * MBTiles Metadata to XML
  *
  * @param {MBTiles} mbtiles
- * @param {string} service
+ * @param {string} layer
  * @param {Response} res
  */
-function mbtilesMedataToXML (mbtiles, service, res) {
+function mbtilesMedataToXML (mbtiles, layer, res) {
   mbtiles.metadata().then(metadata => {
     const xml = wmts.getCapabilities({
-      url: `${PROTOCOL}://${DOMAIN}:${PORT}/${service}/WMTS`,
-      title: service,
+      url: `${PROTOCOL}://${DOMAIN}:${PORT}/${layer}/WMTS`,
+      title: layer,
       minzoom: metadata.minzoom,
       maxzoom: metadata.maxzoom,
       abstract: metadata.description,

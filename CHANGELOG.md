@@ -1,9 +1,13 @@
 
 # Changelog
 
+## 2.1.0 - 2017-06-12
+
+- Enforce Strict WMTS GetCapabilities & GetTile rules for KVP requests
+
 ## 2.0.0 - 2017-06-03
 
-- Add DOcker instructions
+- Add Docker instructions
 - Add Benchmark reults (1K requests => 2.5s)
 - Restart server if file changes
 - Refactored library to use EventEmitters
