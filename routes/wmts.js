@@ -42,14 +42,14 @@ function GetCapabilitiesKVP (req, res) {
   const filepath = path.join(CACHE, layer + '.mbtiles')
   const url = req.url
 
-  const {request} = getQuery(req)
+  const {request, version, service} = getQuery(req)
   if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
 
   const mbtiles = new MBTiles(filepath)
   switch (request) {
     case 'getcapabilities':
-      // if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
-      // if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
+      if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
+      if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
       return mbtilesMedataToXML(mbtiles, layer, res)
     case undefined:
       return mbtilesMedataToXML(mbtiles, layer, res)
