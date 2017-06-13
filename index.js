@@ -11,6 +11,7 @@ const DEFAULT = require('./config')
  *
  * @param {string} [options] Server Options
  * @param {string} [options.cache=~/mbtiles] CACHE file path
+ * @param {string} [options.protocol='http'] URL Protocol
  * @param {string} [options.domain='localhost'] URL Domain
  * @param {string} [options.port=5000] URL Port
  * @returns {EventEmitter} EventEmitter
@@ -19,6 +20,7 @@ const DEFAULT = require('./config')
  */
 module.exports = function (options = {}) {
   const config = new Conf()
+  config.set('PROTOCOL', options.protocol || DEFAULT.PROTOCOL)
   config.set('PORT', options.port || DEFAULT.PORT)
   config.set('DOMAIN', options.domain || DEFAULT.DOMAIN)
   config.set('CACHE', options.cache || DEFAULT.CACHE)
@@ -44,12 +46,14 @@ module.exports = function (options = {}) {
      * @returns {Promise<Object>} port
      */
     start (options = {}) {
+      const protocol = options.protocol || DEFAULT.PROTOCOL
       const port = options.port || DEFAULT.PORT
       const domain = options.domain || DEFAULT.DOMAIN
       const cache = options.cache || DEFAULT.CACHE
       options = {port, domain, cache}
 
       // Save local settings
+      config.set('PROTOCOL', protocol)
       config.set('PORT', port)
       config.set('DOMAIN', domain)
       config.set('CACHE', cache)
@@ -96,6 +100,7 @@ module.exports = function (options = {}) {
      *
      * @param {string} [options] Server Options
      * @param {string} [options.cache=~/mbtiles] CACHE file path
+     * @param {string} [options.protocol='http'] URL Protocol
      * @param {string} [options.domain='localhost'] URL Domain
      * @param {string} [options.port=5000] URL Port
      * @returns {Promise<Object>} options

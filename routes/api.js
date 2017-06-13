@@ -10,6 +10,7 @@ const config = new Conf()
  */
 router.route('/')
   .all((req, res) => {
+    const PROTOCOL = config.get('PROTOCOL')
     const PORT = config.get('PORT')
     const CACHE = config.get('CACHE')
 
@@ -25,6 +26,7 @@ router.route('/')
       },
       mbtiles: getFiles(CACHE, /\.mbtiles$/),
       ok: true,
+      protocol: PROTOCOL,
       cache: CACHE,
       port: PORT,
       status: 200

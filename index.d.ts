@@ -12,6 +12,7 @@ interface Log {
 }
 
 declare interface Options {
+  protocol?: string
   domain?: string
   port?: number
   cache?: string

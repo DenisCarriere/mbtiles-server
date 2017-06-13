@@ -32,6 +32,8 @@ router.route('/:mbtiles/WMTS')
   .get(GetCapabilitiesKVP)
 router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|.jpeg|)')
   .get(GetTileRESTful)
+router.route('/:mbtiles/WMTS/tile/1.0.0')
+  .get(GetTileKVP)
 router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|.jpeg|)')
   .get(GetTileRESTful)
 
@@ -40,14 +42,14 @@ function GetCapabilitiesKVP (req, res) {
   const filepath = path.join(CACHE, layer + '.mbtiles')
   const url = req.url
 
-  const {request, version, service} = getQuery(req)
+  const {request} = getQuery(req)
   if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
 
   const mbtiles = new MBTiles(filepath)
   switch (request) {
     case 'getcapabilities':
-      if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
-      if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
+      // if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
+      // if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
       return mbtilesMedataToXML(mbtiles, layer, res)
     case undefined:
       return mbtilesMedataToXML(mbtiles, layer, res)
