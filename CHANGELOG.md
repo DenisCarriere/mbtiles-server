@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 2.2.0 - 2017-06-15
+
+- No need to restart server to access new MBTiles
+
 ## 2.1.0 - 2017-06-12
 
 - ~Enforce Strict WMTS GetCapabilities & GetTile rules for KVP requests~

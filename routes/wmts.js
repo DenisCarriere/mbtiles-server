@@ -7,7 +7,6 @@ const MBTiles = require('mbtiles-offline')
 const mercator = require('global-mercator')
 const tiletype = require('@mapbox/tiletype')
 const {mbtilesNotFound, invalidTile, tileNotFound, invalidVersion, invalidService, getQuery, invalidQuery} = require('./utils')
-const {getFiles} = require('../utils')
 
 // Configurations
 const config = new Conf()
@@ -15,13 +14,6 @@ const PORT = config.get('PORT')
 const CACHE = config.get('CACHE')
 const DOMAIN = config.get('DOMAIN')
 const PROTOCOL = config.get('PROTOCOL')
-
-// Store all MBTiles
-const MBTILES = new Map()
-console.log('cache', CACHE)
-getFiles(CACHE).forEach(service => {
-  MBTILES.set(service, new MBTiles(path.join(CACHE, service + '.mbtiles')))
-})
 
 /**
  * Routes
@@ -105,7 +97,7 @@ function GetTileKVP (req, res) {
       if (!mercator.validTile(tms)) return invalidTile(url, layer, tms, res)
 
       const tile = mercator.tileToGoogle(tms)
-      const mbtiles = MBTILES.get(layer)
+      const mbtiles = new MBTiles(filepath)
       return mbtiles.findOne(tile)
         .then(data => {
           if (data === undefined) return tileNotFound(url, layer, tms, res)
@@ -134,7 +126,7 @@ function GetTileRESTful (req, res) {
   if (!mercator.validTile(tms)) return invalidTile(url, layer, tms, res)
 
   const tile = mercator.tileToGoogle(tms)
-  const mbtiles = MBTILES.get(layer)
+  const mbtiles = new MBTiles(filepath)
   return mbtiles.findOne(tile)
     .then(data => {
       if (data === undefined) return tileNotFound(url, layer, tms, res)
