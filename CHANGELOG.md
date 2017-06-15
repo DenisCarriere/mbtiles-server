@@ -3,7 +3,7 @@
 
 ## 2.1.0 - 2017-06-12
 
-- Enforce Strict WMTS GetCapabilities & GetTile rules for KVP requests
+- ~Enforce Strict WMTS GetCapabilities & GetTile rules for KVP requests~
 
 ## 2.0.0 - 2017-06-03
 
