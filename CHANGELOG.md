@@ -3,6 +3,7 @@
 
 ## 2.2.0 - 2017-06-15
 
+- Add Mercator Bounding Box WMTS
 - No need to restart server to access new MBTiles
 
 ## 2.1.0 - 2017-06-12

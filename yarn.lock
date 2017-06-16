@@ -2917,10 +2917,12 @@ wmsc@^0.1.1:
     global-mercator "^2.6.0"
     xml-js "^1.0.2"
 
-wmts@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/wmts/-/wmts-1.7.2.tgz#80752667eb186ac21033650b34b4506477df23f4"
+wmts@^1.7.2, wmts@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/wmts/-/wmts-1.8.0.tgz#2df3ba25de69a2e447ceacf8e2690dd918b1542f"
   dependencies:
+    global-mercator "^2.7.0"
+    wmts "^1.7.2"
     xml-js "^1.2.2"
 
 wordwrap@0.0.2:
