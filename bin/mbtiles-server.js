@@ -14,6 +14,7 @@ const cli = meow(`
 
   Options:
     --cache           [~/mbtiles] Cache
+    --protocol        [http] Protocol
     --port            [5000] Port
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
@@ -26,6 +27,7 @@ const cli = meow(`
 })
 
 // Define default options
+const protocol = cli.flags.protocol || DEFAULT.PROTOCOL
 const port = cli.flags.port || DEFAULT.PORT
 const cache = cli.flags.cache || DEFAULT.CACHE
 const domain = cli.flags.domain || DEFAULT.DOMAIN
@@ -36,12 +38,13 @@ const status = `
 MBTiles Server
 
   cache:         ${cache}
+  protocol:      ${protocol}
   port:          ${port}
   domain:        ${domain}
   verbose:       ${verbose}
 `
 
-const ee = server({cache, domain, port, verbose})
+const ee = server({protocol, cache, domain, port, verbose})
 
 ee.on('start', () => {
   if (verbose) process.stdout.write(status + '\n')

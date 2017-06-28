@@ -1,5 +1,11 @@
-
 # Changelog
+
+## 2.3.0 - 2017-06-27
+
+- Add SQLite support for NodeJS 8
+- Update Dockerfile
+- Add environment variables to configuration
+- Add favicon to server
 
 ## 2.2.0 - 2017-06-15
 

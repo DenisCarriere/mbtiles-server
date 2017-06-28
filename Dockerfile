@@ -1,4 +1,4 @@
-FROM node:6
+FROM mhart/alpine-node
 MAINTAINER Denis Carriere <@DenisCarriere>
 
 # Create app directory
@@ -13,6 +13,13 @@ RUN yarn
 # Bundle app source
 COPY . /src/
 RUN mkdir -p /root/mbtiles
+
+# Enables customized options using environment variables
+ENV CACHE='/root/mbtiles'
+ENV PROTOCOL='http'
+ENV DOMAIN='localhost'
+ENV PORT='5000'
+ENV VERBOSE='true'
 
 # Run App
 EXPOSE 5000

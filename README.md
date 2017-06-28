@@ -45,6 +45,37 @@ MBTiles Server Service
 
 Using `mbtiles-server` you could easily sustain 60 active users and up to 480 passive users. These tests were done on the server locally, network traffic and switches could slow down these results significantly.
 
+## CLI Help
+
+For any additional help using the CLI, use the `--help` flag.
+
+```bash
+  Provides a compatible WMTS Tile Server from MBTiles.
+
+  Usage
+    $ mbtiles-server
+
+  Options
+    --cache           [~/mbtiles] Cache
+    --protocol        [http] Protocol
+    --port            [5000] Port
+    --domain          [localhost] Domain
+    --verbose         [false] Verbose output
+
+  Examples
+    $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
+```
+
+## Environment Variables
+
+Environment variables can be defined instead of entering your options via the CLI.
+
+- `MBTILES_SERVER_CACHE`
+- `MBTILES_SERVER_PROTOCOL`
+- `MBTILES_SERVER_PORT`
+- `MBTILES_SERVER_DOMAIN`
+- `MBTILES_SERVER_VERBOSE`
+
 ## Docker
 
 A Dockerfile is provided for easy Docker deployment
@@ -66,27 +97,6 @@ $ docker run -d \
   -p 5000:5000 \
   -v ~/mbtiles/:/root/mbtiles \
   mbtiles-server
-```
-
-## CLI Help
-
-For any additional help using the CLI, use the `--help` flag.
-
-```bash
-  Provides a compatible WMTS Tile Server from MBTiles.
-
-  Usage
-    $ mbtiles-server
-
-  Options
-    --cache           [~/mbtiles] Cache
-    --protocol        [http] Protocol
-    --port            [5000] Port
-    --domain          [localhost] Domain
-    --verbose         [false] Verbose output
-
-  Examples
-    $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
 ```
 
 ## WMTS

@@ -1,7 +1,9 @@
 const fs = require('fs')
+const path = require('path')
 const Conf = require('conf')
 const mkdirp = require('mkdirp')
 const express = require('express')
+const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
 const {EventEmitter} = require('events')
 const DEFAULT = require('./config')
@@ -133,6 +135,7 @@ module.exports = function (options = {}) {
 
   // Register Routes
   const routes = require('./routes')
+  app.use(favicon(path.join(__dirname, 'public', 'icon.ico')))
   app.use(routes.permissions)
   app.use('/', routes.api)
   app.use('/', routes.mbtiles)
