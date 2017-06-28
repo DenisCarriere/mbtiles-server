@@ -28,7 +28,7 @@
     "conf": "^1.1.2",
     "express": "^4.14.0",
     "global-mercator": "^2.7.0",
-    "mbtiles-offline": "^2.3.5",
+    "mbtiles-offline": "2.9.0",
     "meow": "^3.7.0",
     "mkdirp": "^0.5.1",
     "serve-favicon": "^2.4.3",
