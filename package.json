@@ -1,6 +1,6 @@
 {
   "name": "mbtiles-server",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
   "main": "index.js",
   "types": "index.d.ts",
@@ -10,7 +10,8 @@
     "bin",
     "config",
     "routes",
-    "utils"
+    "utils",
+    "public"
   ],
   "scripts": {
     "start": "node ./bin/mbtiles-server.js --verbose",
