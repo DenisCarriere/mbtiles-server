@@ -81,7 +81,7 @@ function GetTileKVP (req, res) {
   const x = Number(tilecol)
   const y = Number(tilerow)
   const z = Number(tilematrix)
-  const tms = [x, y, z]
+  const tile = [x, y, z]
   const url = req.url
   const filepath = path.join(CACHE, layer + '.mbtiles')
 
@@ -94,13 +94,12 @@ function GetTileKVP (req, res) {
       if (tilerow === undefined) return invalidQuery(url, layer, filepath, 'tilerow', res)
       if (tilematrix === undefined) return invalidQuery(url, layer, filepath, 'tilematrix', res)
       if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
-      if (!mercator.validTile(tms)) return invalidTile(url, layer, tms, res)
+      if (!mercator.validTile(tile)) return invalidTile(url, layer, tile, res)
 
-      const tile = mercator.tileToGoogle(tms)
       const mbtiles = new MBTiles(filepath)
       return mbtiles.findOne(tile)
         .then(data => {
-          if (data === undefined) return tileNotFound(url, layer, tms, res)
+          if (data === undefined) return tileNotFound(url, layer, tile, res)
           res.set(tiletype.headers(data))
           return res.end(data, 'binary')
         })
@@ -118,18 +117,17 @@ function GetTileRESTful (req, res) {
   const x = Number(req.params.x || req.query.TILECOL)
   const y = Number(req.params.y || req.query.TILEROW)
   const z = Number(req.params.z || req.query.TILEMATRIX)
-  const tms = [x, y, z]
+  const tile = [x, y, z]
   const url = req.url
   const filepath = path.join(CACHE, layer + '.mbtiles')
 
   if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
-  if (!mercator.validTile(tms)) return invalidTile(url, layer, tms, res)
+  if (!mercator.validTile(tile)) return invalidTile(url, layer, tile, res)
 
-  const tile = mercator.tileToGoogle(tms)
   const mbtiles = new MBTiles(filepath)
   return mbtiles.findOne(tile)
     .then(data => {
-      if (data === undefined) return tileNotFound(url, layer, tms, res)
+      if (data === undefined) return tileNotFound(url, layer, tile, res)
       res.set(tiletype.headers(data))
       return res.end(data, 'binary')
     })

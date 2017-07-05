@@ -1721,9 +1721,9 @@ map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
 
-mbtiles-offline@^2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/mbtiles-offline/-/mbtiles-offline-2.9.0.tgz#d007f5e0d1e2821a5b4451d8baf48b2daa8f3a0b"
+mbtiles-offline@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/mbtiles-offline/-/mbtiles-offline-3.0.1.tgz#dc9f2c963e4cd28780798940582edc4e71eb42e8"
   dependencies:
     "@mapbox/tiletype" "^0.3.1"
     "@turf/bbox" "^3.10.3"
