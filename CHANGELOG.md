@@ -3,6 +3,7 @@
 ## 3.0.0 - 2017-07-05
 
 - Update `mbtiles-offline` to version 3
+- Support lastest versions of Electron
 
 ## 2.3.0 - 2017-06-27
 
