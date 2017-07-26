@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.1.0 - 2017-07-26
+
+- Add watch files as an option
+- Server does not restart automatically if `watch` is not provided
+
 ## 3.0.0 - 2017-07-05
 
 - Update `mbtiles-offline` to version 3
