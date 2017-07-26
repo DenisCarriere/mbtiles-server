@@ -16,6 +16,7 @@ declare interface Options {
   domain?: string
   port?: number
   cache?: string
+  watch?: boolean
 }
 
 interface Server extends EventEmitter {
@@ -28,6 +29,7 @@ interface Server extends EventEmitter {
   on(type: 'start', callback: (options: Options) => void): this;
   on(type: 'end', callback: () => void): this;
   on(type: 'log', callback: (log: Log) => void): this;
+  on(type: 'error', callback: (error: Error) => void): this;
 }
 
 declare function server(options?: Options): Server

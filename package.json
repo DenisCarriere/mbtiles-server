@@ -1,7 +1,11 @@
 {
   "name": "mbtiles-server",
-  "version": "3.0.4",
+  "version": "3.1.0",
   "description": "Provides a compatible WMTS Tile Server from MBTiles.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DenisCarriere/mbtiles-server.git"
+  },
   "main": "index.js",
   "types": "index.d.ts",
   "files": [

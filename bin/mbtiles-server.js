@@ -18,6 +18,7 @@ const cli = meow(`
     --port            [5000] Port
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
+    --watch           [false] Watch files and restarts server
 
   Examples:
     $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
@@ -32,6 +33,7 @@ const port = cli.flags.port || DEFAULT.PORT
 const cache = cli.flags.cache || DEFAULT.CACHE
 const domain = cli.flags.domain || DEFAULT.DOMAIN
 const verbose = cli.flags.verbose || DEFAULT.VERBOSE
+const watch = cli.flags.watch
 
 // Verbose output
 const status = `
@@ -42,9 +44,10 @@ MBTiles Server
   port:          ${port}
   domain:        ${domain}
   verbose:       ${verbose}
+  watch:         ${watch}
 `
 
-const ee = server({protocol, cache, domain, port, verbose})
+const ee = server({protocol, cache, domain, port, verbose, watch})
 
 ee.on('start', () => {
   if (verbose) process.stdout.write(status + '\n')
@@ -52,4 +55,8 @@ ee.on('start', () => {
 
 ee.on('log', log => {
   if (verbose) process.stdout.write(JSON.stringify(log) + '\n')
+})
+
+ee.on('error', error => {
+  if (verbose) process.stdout.write(error.message + '\n')
 })

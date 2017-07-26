@@ -12,10 +12,11 @@ const DEFAULT = require('./config')
  * Start Server
  *
  * @param {string} [options] Server Options
- * @param {string} [options.cache=~/mbtiles] CACHE file path
+ * @param {string} [options.cache='~/mbtiles'] CACHE file path
  * @param {string} [options.protocol='http'] URL Protocol
  * @param {string} [options.domain='localhost'] URL Domain
- * @param {string} [options.port=5000] URL Port
+ * @param {number} [options.port=5000] URL Port
+ * @param {boolean} [options.watch=false] Watch files and restarts the server when detected
  * @returns {EventEmitter} EventEmitter
  * @example
  * server({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
@@ -48,11 +49,12 @@ module.exports = function (options = {}) {
      * @returns {Promise<Object>} port
      */
     start (options = {}) {
-      const protocol = options.protocol || DEFAULT.PROTOCOL
+      let protocol = options.protocol || DEFAULT.PROTOCOL
       const port = options.port || DEFAULT.PORT
       const domain = options.domain || DEFAULT.DOMAIN
       const cache = options.cache || DEFAULT.CACHE
-      options = {port, domain, cache}
+      const watch = options.watch
+      options = {protocol, port, domain, cache, watch}
 
       // Save local settings
       config.set('PROTOCOL', protocol)
@@ -60,14 +62,17 @@ module.exports = function (options = {}) {
       config.set('DOMAIN', domain)
       config.set('CACHE', cache)
       this.cache = cache
+      this.watch = watch
 
       // Create folder
       if (!fs.existsSync(cache)) mkdirp.sync(cache)
 
       // Restart if file change detected
-      fs.watchFile(cache, current => {
-        this.restart(options)
-      })
+      if (watch) {
+        fs.watchFile(cache, current => {
+          this.restart(options)
+        })
+      }
 
       return new Promise((resolve, reject) => {
         this.server = app.listen(port, () => {
@@ -91,7 +96,7 @@ module.exports = function (options = {}) {
         this.server.close(() => {
           this.emit('end')
           this.server = undefined
-          fs.unwatchFile(this.cache)
+          if (this.watch) fs.unwatchFile(this.cache)
           return resolve()
         })
       })
@@ -143,5 +148,6 @@ module.exports = function (options = {}) {
 
   // Auto-start server
   ee.start(options)
+    .catch(error => ee.emit('error', error))
   return ee
 }
