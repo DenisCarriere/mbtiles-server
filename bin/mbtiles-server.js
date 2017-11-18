@@ -13,7 +13,7 @@ const cli = meow(`
     $ mbtiles-server
 
   Options:
-    --cache           [~/mbtiles] Cache
+    --cache           [~/mbtiles] Cache, the directory where .mbtiles files are located.
     --protocol        [http] Protocol
     --port            [5000] Port
     --domain          [localhost] Domain
