@@ -8,7 +8,15 @@ WORKDIR /src
 # Install app dependencies
 COPY package.json /src/
 COPY yarn.lock /src/
-RUN yarn
+RUN yarn install --production
+
+# Smaller image
+FROM mhart/alpine-node:slim-8
+
+RUN mkdir -p /src
+# Copy node_modules from previous layer
+COPY --from=0 /src /src
+WORKDIR /src
 
 # Bundle app source
 COPY . /src/
@@ -23,4 +31,4 @@ ENV VERBOSE='true'
 
 # Run App
 EXPOSE 5000
-CMD ["yarn", "start"]
+CMD ["node", "./bin/mbtiles-server.js", "--verbose"]
