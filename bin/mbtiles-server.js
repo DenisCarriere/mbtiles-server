@@ -6,7 +6,7 @@ const DEFAULT = require('../config')
 const server = require('../')
 
 // Update if required
-updateNotifier({pkg}).notify()
+updateNotifier({ pkg }).notify()
 
 const cli = meow(`
   Usage:
@@ -23,7 +23,7 @@ const cli = meow(`
   Examples:
     $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
 `, {
-  alias: {v: 'verbose'},
+  alias: { v: 'verbose' },
   boolean: ['verbose']
 })
 
@@ -47,7 +47,7 @@ MBTiles Server
   watch:         ${watch}
 `
 
-const ee = server({protocol, cache, domain, port, verbose, watch})
+const ee = server({ protocol, cache, domain, port, verbose, watch })
 
 ee.on('start', () => {
   if (verbose) process.stdout.write(status + '\n')

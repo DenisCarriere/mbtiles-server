@@ -5,7 +5,7 @@ const mkdirp = require('mkdirp')
 const express = require('express')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
-const {EventEmitter} = require('events')
+const { EventEmitter } = require('events')
 const DEFAULT = require('./config')
 
 /**
@@ -54,7 +54,7 @@ module.exports = function (options = {}) {
       const domain = options.domain || DEFAULT.DOMAIN
       const cache = options.cache || DEFAULT.CACHE
       const watch = options.watch
-      options = {protocol, port, domain, cache, watch}
+      options = { protocol, port, domain, cache, watch }
 
       // Save local settings
       config.set('PROTOCOL', protocol)

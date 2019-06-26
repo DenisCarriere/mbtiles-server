@@ -1,6 +1,6 @@
 const fs = require('fs')
 const mkdirp = require('mkdirp')
-const {CACHE} = require('../config')
+const { CACHE } = require('../config')
 
 /**
  * Get Files

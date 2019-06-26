@@ -3,8 +3,8 @@ const axios = require('axios')
 const server = require('./')
 
 const cache = path.join(__dirname, 'test', 'fixtures')
-const config = {responseType: 'arraybuffer'}
-const ee = server({cache})
+const config = { responseType: 'arraybuffer' }
+const ee = server({ cache })
 
 // http://localhost:5000/world_zoom_0-2/2/2/2
 function randomURL () {

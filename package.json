@@ -30,22 +30,22 @@
   "dependencies": {
     "@mapbox/tiletype": "^0.3.0",
     "body-parser": "^1.15.2",
-    "conf": "^1.1.2",
+    "conf": "^5.0.0",
     "express": "^4.14.0",
-    "global-mercator": "2.7.0",
-    "mbtiles-offline": "^3.1.0",
-    "meow": "^3.7.0",
+    "global-mercator": "3.0.3",
+    "mbtiles-offline": "^4.0.1",
+    "meow": "^5.0.0",
     "mkdirp": "^0.5.1",
     "serve-favicon": "^2.4.3",
-    "update-notifier": "^2.0.0",
+    "update-notifier": "^3.0.0",
     "wmsc": "^0.1.1",
-    "wmts": "^1.8.1"
+    "wmts": "^2.0.0"
   },
   "devDependencies": {
-    "@types/node": "^7.0.27",
-    "axios": "^0.16.1",
-    "standard": "^8.6.0",
-    "tap": "^10.3.3"
+    "@types/node": "^12.0.10",
+    "axios": "^0.19.0",
+    "standard": "^12.0.1",
+    "tap": "^14.3.1"
   },
   "keywords": [
     "gis",
@@ -58,7 +58,7 @@
     "server"
   ],
   "engines": {
-    "node": ">=6"
+    "node": ">=10"
   },
   "standard": {
     "ignore": [
