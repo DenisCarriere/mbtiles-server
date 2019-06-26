@@ -6,7 +6,7 @@ const router = require('express').Router()
 const MBTiles = require('mbtiles-offline')
 const mercator = require('global-mercator')
 const tiletype = require('@mapbox/tiletype')
-const {mbtilesNotFound, invalidTile, tileNotFound, invalidVersion, invalidService, getQuery, invalidQuery} = require('./utils')
+const { mbtilesNotFound, invalidTile, tileNotFound, invalidVersion, invalidService, getQuery, invalidQuery } = require('./utils')
 
 // Configurations
 const config = new Conf()
@@ -35,7 +35,7 @@ function GetCapabilitiesKVP (req, res) {
   const url = req.url
 
   // const {request, version, service} = getQuery(req)
-  const {request} = getQuery(req)
+  const { request } = getQuery(req)
   if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
 
   const mbtiles = new MBTiles(filepath)
@@ -59,7 +59,7 @@ function GetCapabilitiesKVP (req, res) {
 function GetCapabilitiesRESTful (req, res) {
   const layer = req.params.mbtiles
   const filepath = path.join(CACHE, layer + '.mbtiles')
-  const {url} = req
+  const { url } = req
 
   if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
 
@@ -77,7 +77,7 @@ function GetCapabilitiesRESTful (req, res) {
  */
 function GetTileKVP (req, res) {
   const layer = req.params.mbtiles
-  const {tilecol, tilerow, tilematrix, request, version, service} = getQuery(req)
+  const { tilecol, tilerow, tilematrix, request, version, service } = getQuery(req)
   const x = Number(tilecol)
   const y = Number(tilerow)
   const z = Number(tilematrix)

@@ -3,7 +3,7 @@ const Conf = require('conf')
 const path = require('path')
 const router = require('express').Router()
 const MBTiles = require('mbtiles-offline')
-const {mbtilesNotFound} = require('./utils')
+const { mbtilesNotFound } = require('./utils')
 
 // Configurations
 const config = new Conf()

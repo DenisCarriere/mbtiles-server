@@ -1,6 +1,6 @@
 const path = require('path')
-const {test} = require('tap')
-const {getFiles} = require('./utils')
+const { test } = require('tap')
+const { getFiles } = require('./utils')
 const server = require('./')
 
 const cache = path.join(__dirname, 'test', 'fixtures')
@@ -12,7 +12,7 @@ test('utils', t => {
 })
 
 test('server -- start & close', t => {
-  const ee = server({port: 3000, cache})
+  const ee = server({ port: 3000, cache })
   ee.on('start', async () => {
     t.pass()
     await ee.close()
@@ -21,9 +21,9 @@ test('server -- start & close', t => {
 })
 
 test('server -- restart', t => {
-  const ee = server({port: 3001, cache})
+  const ee = server({ port: 3001, cache })
   setTimeout(async () => {
-    await ee.restart({port: 3002, cache})
+    await ee.restart({ port: 3002, cache })
     t.pass()
     await ee.close()
     t.end()

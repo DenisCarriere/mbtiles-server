@@ -1,6 +1,6 @@
 const Conf = require('conf')
 const router = require('express').Router()
-const {getFiles} = require('../utils')
+const { getFiles } = require('../utils')
 
 // Configurations
 const config = new Conf()
@@ -34,4 +34,3 @@ router.route('/')
   })
 
 module.exports = router
-
