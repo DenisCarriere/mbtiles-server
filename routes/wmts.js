@@ -90,16 +90,16 @@ function GetTileKVP (req, res) {
       // validation
       if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
       if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
-      if (tilecol === undefined) return invalidQuery(url, layer, filepath, 'tilecol', res)
-      if (tilerow === undefined) return invalidQuery(url, layer, filepath, 'tilerow', res)
-      if (tilematrix === undefined) return invalidQuery(url, layer, filepath, 'tilematrix', res)
+      if (!tilecol) return invalidQuery(url, layer, filepath, 'tilecol', res)
+      if (!tilerow) return invalidQuery(url, layer, filepath, 'tilerow', res)
+      if (!tilematrix) return invalidQuery(url, layer, filepath, 'tilematrix', res)
       if (!fs.existsSync(filepath)) return mbtilesNotFound(url, layer, filepath, res)
       if (!mercator.validTile(tile)) return invalidTile(url, layer, tile, res)
 
       const mbtiles = new MBTiles(filepath)
       return mbtiles.findOne(tile)
         .then(data => {
-          if (data === undefined) return tileNotFound(url, layer, tile, res)
+          if (!data) return tileNotFound(url, layer, tile, res)
           res.set(tiletype.headers(data))
           return res.end(data, 'binary')
         })
@@ -127,7 +127,7 @@ function GetTileRESTful (req, res) {
   const mbtiles = new MBTiles(filepath)
   return mbtiles.findOne(tile)
     .then(data => {
-      if (data === undefined) return tileNotFound(url, layer, tile, res)
+      if (!data) return tileNotFound(url, layer, tile, res)
       res.set(tiletype.headers(data))
       return res.end(data, 'binary')
     })
