@@ -22,11 +22,11 @@ router.route('/:mbtiles/WMTS/1.0.0/WMTSCapabilities.xml')
   .get(GetCapabilitiesRESTful)
 router.route('/:mbtiles/WMTS')
   .get(GetCapabilitiesKVP)
-router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|.jpeg|)')
+router.route('/:mbtiles/WMTS/tile/1.0.0/:mbtiles/:Style/:TileMatrixSet/:z(\\d+)/:y(\\d+)/:x(\\d+):ext(.jpg|.png|.jpeg|.pbf|)')
   .get(GetTileRESTful)
 router.route('/:mbtiles/WMTS/tile/1.0.0')
   .get(GetTileKVP)
-router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|.jpeg|)')
+router.route('/:mbtiles/:z(\\d+)/:x(\\d+)/:y(\\d+):ext(.jpg|.png|.jpeg|.pbf|)')
   .get(GetTileRESTful)
 
 function GetCapabilitiesKVP (req, res) {
