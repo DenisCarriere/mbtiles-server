@@ -6,7 +6,7 @@ const MBTiles = require('mbtiles-offline')
 const { mbtilesNotFound } = require('./utils')
 
 // Configurations
-const config = new Conf()
+const config = new Conf({projectName: "MBTiles Server"})
 const CACHE = config.get('CACHE')
 
 /**
