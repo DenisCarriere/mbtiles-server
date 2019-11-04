@@ -22,7 +22,7 @@ const DEFAULT = require('./config')
  * server({cache: '/Users/mac/mbtiles', port: 5000, verbose: true})
  */
 module.exports = function (options = {}) {
-  const config = new Conf()
+  const config = new Conf({projectName: "MBTiles Server"})
   config.set('PROTOCOL', options.protocol || DEFAULT.PROTOCOL)
   config.set('PORT', options.port || DEFAULT.PORT)
   config.set('DOMAIN', options.domain || DEFAULT.DOMAIN)
