@@ -3,7 +3,7 @@ const router = require('express').Router()
 const { getFiles } = require('../utils')
 
 // Configurations
-const config = new Conf({projectName: "MBTiles Server"})
+const config = new Conf({ projectName: 'MBTiles Server' })
 
 /**
  * Route for API

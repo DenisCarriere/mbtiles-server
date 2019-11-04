@@ -7,7 +7,7 @@ const cache = path.join(__dirname, 'test', 'fixtures')
 
 test('utils', t => {
   const files = getFiles(cache)
-  t.deepEqual(files, [ 'canada_zoom_0-3', 'fiji_zoom_0-4', 'world_zoom_0-2' ])
+  t.deepEqual(files, ['canada_zoom_0-3', 'fiji_zoom_0-4', 'world_zoom_0-2'])
   t.end()
 })
 
