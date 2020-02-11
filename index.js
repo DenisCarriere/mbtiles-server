@@ -55,8 +55,8 @@ module.exports = function (options = {}) {
       const port = options.port || DEFAULT.PORT
       const domain = options.domain || DEFAULT.DOMAIN
       const cache = options.cache || DEFAULT.CACHE
-      const ssl_key = options.ssl_key || DEFAULT.SSL_KEY
-      const ssl_cert = options.ssl_cert || DEFAULT.SSL_CERT
+      const sslkey = options.sslkey || DEFAULT.SSL_KEY
+      const sslcert = options.sslcert || DEFAULT.SSL_CERT
       const watch = options.watch
       options = { protocol, port, domain, cache, watch }
 
@@ -80,12 +80,12 @@ module.exports = function (options = {}) {
 
       return new Promise((resolve, reject) => {
         let server = null;
-        if(protocol == "http"){
+        if (protocol === 'http') {
           server = http.createServer(app)
-        }else{
-          var options = {
-            key:  fs.readFileSync(ssl_key,  'utf8'),
-            cert: fs.readFileSync(ssl_cert, 'utf8')
+        } else {
+          let options = {
+            key:  fs.readFileSync(sslkey,  'utf8'),
+            cert: fs.readFileSync(sslcert, 'utf8')
           }
           server = https.createServer(options, app)
         }
