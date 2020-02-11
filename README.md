@@ -57,7 +57,7 @@ For any additional help using the CLI, use the `--help` flag.
 
   Options
     --cache           [~/mbtiles] Cache
-    --protocol        [http, https] Protocol
+    --protocol        [http] Protocol
     --port            [5000] Port
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
