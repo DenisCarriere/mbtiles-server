@@ -1,4 +1,6 @@
 const fs = require('fs')
+const http = require('http')
+const https = require('https')
 const path = require('path')
 const Conf = require('conf')
 const mkdirp = require('mkdirp')
@@ -53,6 +55,8 @@ module.exports = function (options = {}) {
       const port = options.port || DEFAULT.PORT
       const domain = options.domain || DEFAULT.DOMAIN
       const cache = options.cache || DEFAULT.CACHE
+      const ssl_key = options.ssl_key || DEFAULT.SSL_KEY
+      const ssl_cert = options.ssl_cert || DEFAULT.SSL_CERT
       const watch = options.watch
       options = { protocol, port, domain, cache, watch }
 
@@ -75,7 +79,17 @@ module.exports = function (options = {}) {
       }
 
       return new Promise((resolve, reject) => {
-        this.server = app.listen(port, () => {
+        let server = null;
+        if(protocol == "http"){
+          server = http.createServer(app)
+        }else{
+          var options = {
+            key:  fs.readFileSync(ssl_key,  'utf8'),
+            cert: fs.readFileSync(ssl_cert, 'utf8')
+          }
+          server = https.createServer(options, app)
+        }
+        this.server = server.listen(port, () => {
           this.emit('start', options)
           return resolve(options)
         })
