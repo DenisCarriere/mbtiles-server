@@ -79,12 +79,12 @@ module.exports = function (options = {}) {
       }
 
       return new Promise((resolve, reject) => {
-        let server = null;
+        let server = null
         if (protocol === 'http') {
           server = http.createServer(app)
         } else {
           let options = {
-            key:  fs.readFileSync(sslkey,  'utf8'),
+            key: fs.readFileSync(sslkey, 'utf8'),
             cert: fs.readFileSync(sslcert, 'utf8')
           }
           server = https.createServer(options, app)

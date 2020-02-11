@@ -61,8 +61,8 @@ For any additional help using the CLI, use the `--help` flag.
     --port            [5000] Port
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
-    --ssl_key         [~/mbtiles/server.key] Path to the file certification (.key). For https protocol only  
-    --ssl_cert        [~/mbtiles/server.cert] Path to the file certification (.cert). For https protocol only
+    --sslkey          [~/mbtiles/server.key] Path to the file certification (.key). For https protocol only  
+    --sslcert         [~/mbtiles/server.cert] Path to the file certification (.cert). For https protocol only
   
   Examples
     $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
