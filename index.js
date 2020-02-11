@@ -29,6 +29,8 @@ module.exports = function (options = {}) {
   config.set('PORT', options.port || DEFAULT.PORT)
   config.set('DOMAIN', options.domain || DEFAULT.DOMAIN)
   config.set('CACHE', options.cache || DEFAULT.CACHE)
+  config.set('SSL_KEY', options.sslkey || DEFAULT.SSL_KEY)
+  config.set('SSL_CERT', options.sslcert || DEFAULT.SSL_CERT)
 
   // Settings
   const app = express()

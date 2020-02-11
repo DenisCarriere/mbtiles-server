@@ -19,6 +19,8 @@ const cli = meow(`
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
     --watch           [false] Watch files and restarts server
+    --sslkey          [~/mbtiles/server.key] Path to the file certification (.key). For https protocol only  
+    --sslcert         [~/mbtiles/server.cert] Path to the file certification (.cert). For https protocol only
 
   Examples:
     $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
@@ -33,6 +35,8 @@ const port = cli.flags.port || DEFAULT.PORT
 const cache = cli.flags.cache || DEFAULT.CACHE
 const domain = cli.flags.domain || DEFAULT.DOMAIN
 const verbose = cli.flags.verbose || DEFAULT.VERBOSE
+const sslkey = cli.flags.sslkey || DEFAULT.SSL_KEY
+const sslcert = cli.flags.sslcert || DEFAULT.SSL_CERT
 const watch = cli.flags.watch
 
 // Verbose output
@@ -45,9 +49,11 @@ MBTiles Server
   domain:        ${domain}
   verbose:       ${verbose}
   watch:         ${watch}
+  sslkey:        ${sslkey}
+  sslcert:       ${sslcert}
 `
 
-const ee = server({ protocol, cache, domain, port, verbose, watch })
+const ee = server({ protocol, cache, domain, port, verbose, watch, sslkey, sslcert })
 
 ee.on('start', () => {
   if (verbose) process.stdout.write(status + '\n')
