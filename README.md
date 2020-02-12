@@ -61,7 +61,9 @@ For any additional help using the CLI, use the `--help` flag.
     --port            [5000] Port
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
-
+    --sslkey          [~/mbtiles/server.key] Path to the file certification (.key). For https protocol only  
+    --sslcert         [~/mbtiles/server.cert] Path to the file certification (.cert). For https protocol only
+  
   Examples
     $ mbtiles-server --cache /Users/mac/mbtiles --port 5000 --verbose
 ```
@@ -75,6 +77,8 @@ Environment variables can be defined instead of entering your options via the CL
 - `MBTILES_SERVER_PORT`
 - `MBTILES_SERVER_DOMAIN`
 - `MBTILES_SERVER_VERBOSE`
+- `MBTILES_SERVER_SSL_KEY`
+- `MBTILES_SERVER_SSL_CERT`
 
 ## Docker
 

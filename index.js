@@ -1,4 +1,6 @@
 const fs = require('fs')
+const http = require('http')
+const https = require('https')
 const path = require('path')
 const Conf = require('conf')
 const mkdirp = require('mkdirp')
@@ -27,6 +29,8 @@ module.exports = function (options = {}) {
   config.set('PORT', options.port || DEFAULT.PORT)
   config.set('DOMAIN', options.domain || DEFAULT.DOMAIN)
   config.set('CACHE', options.cache || DEFAULT.CACHE)
+  config.set('SSL_KEY', options.sslkey || DEFAULT.SSL_KEY)
+  config.set('SSL_CERT', options.sslcert || DEFAULT.SSL_CERT)
 
   // Settings
   const app = express()
@@ -53,6 +57,8 @@ module.exports = function (options = {}) {
       const port = options.port || DEFAULT.PORT
       const domain = options.domain || DEFAULT.DOMAIN
       const cache = options.cache || DEFAULT.CACHE
+      const sslkey = options.sslkey || DEFAULT.SSL_KEY
+      const sslcert = options.sslcert || DEFAULT.SSL_CERT
       const watch = options.watch
       options = { protocol, port, domain, cache, watch }
 
@@ -75,7 +81,17 @@ module.exports = function (options = {}) {
       }
 
       return new Promise((resolve, reject) => {
-        this.server = app.listen(port, () => {
+        let server = null
+        if (protocol === 'http') {
+          server = http.createServer(app)
+        } else {
+          let options = {
+            key: fs.readFileSync(sslkey, 'utf8'),
+            cert: fs.readFileSync(sslcert, 'utf8')
+          }
+          server = https.createServer(options, app)
+        }
+        this.server = server.listen(port, () => {
           this.emit('start', options)
           return resolve(options)
         })
