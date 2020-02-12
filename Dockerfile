@@ -35,11 +35,13 @@ COPY . /src/
 RUN mkdir -p /root/mbtiles
 
 # Enables customized options using environment variables
-ENV CACHE='/root/mbtiles'
-ENV PROTOCOL='http'
-ENV DOMAIN='localhost'
-ENV PORT='5000'
-ENV VERBOSE='true'
+ENV MBTILES_SERVER_CACHE='/root/mbtiles'
+ENV MBTILES_SERVER_PROTOCOL='http'
+ENV MBTILES_SERVER_DOMAIN='localhost'
+ENV MBTILES_SERVER_PORT='5000'
+ENV MBTILES_SERVER_SSL_KEY='/root/mbtiles/server.key'
+ENV MBTILES_SERVER_SSL_CERT='/root/mbtiles/server.cert'
+ENV MBTILES_SERVER_VERBOSE='true'
 
 # Run App
 EXPOSE 5000

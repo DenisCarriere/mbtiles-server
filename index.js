@@ -28,9 +28,12 @@ module.exports = function (options = {}) {
   config.set('PROTOCOL', options.protocol || DEFAULT.PROTOCOL)
   config.set('PORT', options.port || DEFAULT.PORT)
   config.set('DOMAIN', options.domain || DEFAULT.DOMAIN)
-  config.set('CACHE', options.cache || DEFAULT.CACHE)
-  config.set('SSL_KEY', options.sslkey || DEFAULT.SSL_KEY)
-  config.set('SSL_CERT', options.sslcert || DEFAULT.SSL_CERT)
+  const cache = options.cache || DEFAULT.CACHE
+  const sslkey = options.sslkey || (DEFAULT.SSL_KEY || path.join(cache, 'server.key'))
+  const sslcert = options.sslcert || (DEFAULT.SSL_CERT || path.join(cache, 'server.cert'))
+  config.set('CACHE', cache)
+  config.set('SSL_KEY', sslkey)
+  config.set('SSL_CERT', sslcert)
 
   // Settings
   const app = express()
@@ -57,16 +60,18 @@ module.exports = function (options = {}) {
       const port = options.port || DEFAULT.PORT
       const domain = options.domain || DEFAULT.DOMAIN
       const cache = options.cache || DEFAULT.CACHE
-      const sslkey = options.sslkey || DEFAULT.SSL_KEY
-      const sslcert = options.sslcert || DEFAULT.SSL_CERT
+      const sslkey = options.sslkey || (DEFAULT.SSL_KEY || path.join(cache, 'server.key'))
+      const sslcert = options.sslcert || (DEFAULT.SSL_CERT || path.join(cache, 'server.cert'))
       const watch = options.watch
-      options = { protocol, port, domain, cache, watch }
+      options = { protocol, port, domain, cache, watch, sslkey, sslcert }
 
       // Save local settings
       config.set('PROTOCOL', protocol)
       config.set('PORT', port)
       config.set('DOMAIN', domain)
       config.set('CACHE', cache)
+      config.set('SSL_CERT', sslcert)
+      config.set('SSL_KEY', sslkey)
       this.cache = cache
       this.watch = watch
 
@@ -85,9 +90,12 @@ module.exports = function (options = {}) {
         if (protocol === 'http') {
           server = http.createServer(app)
         } else {
-          let options = {
-            key: fs.readFileSync(sslkey, 'utf8'),
-            cert: fs.readFileSync(sslcert, 'utf8')
+          let options = {}
+          if (fs.existsSync(sslkey) && fs.existsSync(sslcert)) {
+            options = {
+              key: fs.readFileSync(sslkey, 'utf8'),
+              cert: fs.readFileSync(sslcert, 'utf8')
+            }
           }
           server = https.createServer(options, app)
         }
