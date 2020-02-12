@@ -4,6 +4,7 @@ const updateNotifier = require('update-notifier')
 const pkg = require('../package.json')
 const DEFAULT = require('../config')
 const server = require('../')
+const path = require('path')
 
 // Update if required
 updateNotifier({ pkg }).notify()
@@ -35,8 +36,8 @@ const port = cli.flags.port || DEFAULT.PORT
 const cache = cli.flags.cache || DEFAULT.CACHE
 const domain = cli.flags.domain || DEFAULT.DOMAIN
 const verbose = cli.flags.verbose || DEFAULT.VERBOSE
-const sslkey = cli.flags.sslkey || DEFAULT.SSL_KEY
-const sslcert = cli.flags.sslcert || DEFAULT.SSL_CERT
+const sslkey = cli.flags.sslkey || (DEFAULT.SSL_KEY || path.join(cache, 'server.key'))
+const sslcert = cli.flags.sslcert || (DEFAULT.SSL_CERT || path.join(cache, 'server.cert'))
 const watch = cli.flags.watch
 
 // Verbose output
