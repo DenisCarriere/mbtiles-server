@@ -38,7 +38,7 @@ const domain = cli.flags.domain || DEFAULT.DOMAIN
 const verbose = cli.flags.verbose || DEFAULT.VERBOSE
 const sslkey = cli.flags.sslkey || (DEFAULT.SSL_KEY || path.join(cache, 'server.key'))
 const sslcert = cli.flags.sslcert || (DEFAULT.SSL_CERT || path.join(cache, 'server.cert'))
-const watch = cli.flags.watch
+const watch = cli.flags.watch || DEFAULT.WATCH
 
 // Verbose output
 const status = `

@@ -61,6 +61,7 @@ For any additional help using the CLI, use the `--help` flag.
     --port            [5000] Port
     --domain          [localhost] Domain
     --verbose         [false] Verbose output
+    --watch           [false] Watch files and restarts server
     --sslkey          [~/mbtiles/server.key] Path to the file certification (.key). For https protocol only  
     --sslcert         [~/mbtiles/server.cert] Path to the file certification (.cert). For https protocol only
   
@@ -76,6 +77,7 @@ Environment variables can be defined instead of entering your options via the CL
 - `MBTILES_SERVER_PROTOCOL`
 - `MBTILES_SERVER_PORT`
 - `MBTILES_SERVER_DOMAIN`
+- `MBTILES_SERVER_WATCH`
 - `MBTILES_SERVER_VERBOSE`
 - `MBTILES_SERVER_SSL_KEY`
 - `MBTILES_SERVER_SSL_CERT`

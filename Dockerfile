@@ -1,5 +1,5 @@
 FROM mhart/alpine-node:10
-MAINTAINER Denis Carriere <@DenisCarriere>
+LABEL maintainer="Denis Carriere <@DenisCarriere>"
 
 # Create app directory
 RUN mkdir -p /src
@@ -42,6 +42,7 @@ ENV MBTILES_SERVER_PORT='5000'
 ENV MBTILES_SERVER_SSL_KEY='/root/mbtiles/server.key'
 ENV MBTILES_SERVER_SSL_CERT='/root/mbtiles/server.cert'
 ENV MBTILES_SERVER_VERBOSE='true'
+ENV MBTILES_SERVER_WATCH='false'
 
 # Run App
 EXPOSE 5000

@@ -62,7 +62,7 @@ module.exports = function (options = {}) {
       const cache = options.cache || DEFAULT.CACHE
       const sslkey = options.sslkey || (DEFAULT.SSL_KEY || path.join(cache, 'server.key'))
       const sslcert = options.sslcert || (DEFAULT.SSL_CERT || path.join(cache, 'server.cert'))
-      const watch = options.watch
+      const watch = options.watch || DEFAULT.WATCH
       options = { protocol, port, domain, cache, watch, sslkey, sslcert }
 
       // Save local settings
