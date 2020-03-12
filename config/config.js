@@ -7,6 +7,7 @@ const PORT = process.env.MBTILES_SERVER_PORT || 5000
 const CACHE = process.env.MBTILES_SERVER_CACHE || path.join(os.homedir(), 'mbtiles')
 const SSL_KEY = process.env.MBTILES_SERVER_SSL_KEY
 const SSL_CERT = process.env.MBTILES_SERVER_SSL_CERT
+const WATCH = process.env.MBTILES_SERVER_WATCH === 'true'
 const VERBOSE = process.env.MBTILES_SERVER_VERBOSE || false
 
 module.exports = {
@@ -16,5 +17,6 @@ module.exports = {
   CACHE,
   SSL_KEY,
   SSL_CERT,
+  WATCH,
   VERBOSE
 }

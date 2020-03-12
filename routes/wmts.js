@@ -86,7 +86,7 @@ function GetTileKVP (req, res) {
   const filepath = path.join(CACHE, layer + '.mbtiles')
 
   switch (request) {
-    case 'gettile':
+    case 'gettile': {
       // validation
       if (version !== '1.0.0') return invalidVersion(url, layer, filepath, res)
       if (service !== 'wmts') return invalidService(url, layer, filepath, 'wmts', res)
@@ -103,6 +103,7 @@ function GetTileKVP (req, res) {
           res.set(tiletype.headers(data))
           return res.end(data, 'binary')
         })
+    }
   }
 }
 
